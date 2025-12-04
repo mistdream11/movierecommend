@@ -119,7 +119,7 @@ class DatabaseOperations:
                 conn.close()
     
     def insert_recommendations(self, recommendations, movies_dict):
-        """将推荐结果插入MySQL"""
+        """将推荐结果插入MySQL - 修复版，包含moviename字段"""
         try:
             conn = self.get_connection()
             cursor = conn.cursor()
@@ -128,15 +128,17 @@ class DatabaseOperations:
             delete_sql = f"DELETE FROM {config.TABLE_RECOMMEND_RESULT} WHERE userid = %s"
             cursor.execute(delete_sql, (recommendations[0].user,))
             
-            # 插入新的推荐结果
+            # 插入新的推荐结果 - 现在有4个字段：userid, movieid, rating, moviename
             insert_sql = f"""
-            INSERT INTO {config.TABLE_RECOMMEND_RESULT} (userid, movieid, rating) 
-            VALUES (%s, %s, %s)
+            INSERT INTO {config.TABLE_RECOMMEND_RESULT} (userid, movieid, rating, moviename) 
+            VALUES (%s, %s, %s, %s)
             """
             
             for r in recommendations:
                 movie_name = movies_dict.get(r.product, "Unknown")
+                # 现在传递4个参数：user, product, rating, movie_name
                 cursor.execute(insert_sql, (r.user, r.product, r.rating, movie_name))
+                print(f"插入推荐: 用户 {r.user}, 电影 {r.product} ({movie_name}), 评分 {r.rating:.4f}")
             
             conn.commit()
             print(f"已插入 {len(recommendations)} 条推荐记录")
