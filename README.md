@@ -10,6 +10,7 @@ nodejs movierecommend.js
 mysql -u root -p 
 启动mysql
 
+```sql
 结构如下：
 mysql> DESC movieinfo;
 +-------------+--------------+------+-----+-------------------+-------------------+
