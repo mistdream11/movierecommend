@@ -397,7 +397,7 @@ class MovieLensALS:
             # 8. 保存推荐结果到数据库
             print("保存推荐结果到数据库...")
             self.db_ops.insert_recommendations(recommendations, movies_dict)
-            
+             
             # 9. 打印推荐结果
             print("\n=== 推荐结果 ===")
             print("用户ID | 电影ID | 预测评分 | 电影名称")
