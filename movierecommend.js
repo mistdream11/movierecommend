@@ -455,29 +455,227 @@ app.get('/health', function (req, res) {
 /**
  * 测试Python脚本
  */
-app.get('/testpython', function (req, res) {
-    const userid = req.query.userid || '1';
-    const pythonScriptPath = '/home/zsh/movierecommendapp/movie_als/movie_als.py';
+app.get('/recommendmovieforuser',function (req,res) {
+    const userid=req.query.userid;
+    const username=req.query.username;
+    
+    console.log('Starting recommendation for userid: ' + userid + ', username: ' + username);
+    
+    // Python脚本路径和参数
+    const pythonScriptPath = '/home/zsh/movie_recommendation_pyspark/movie_als.py';
     const dataDir = '/home/zsh/ml-latest-small';
     
-    console.log('Testing Python script with user ID:', userid);
+    console.log('Running Python script: ' + pythonScriptPath);
+    console.log('Data directory: ' + dataDir);
+    console.log('User ID: ' + userid);
     
-    const result = spawnSync('python3', [pythonScriptPath, dataDir, userid], {
-        encoding: 'utf-8',
-        timeout: 60000, // 1分钟超时
-        stdio: 'pipe'
+    // 调用Python推荐程序
+    const pythonProcess = spawn('python3', [pythonScriptPath, dataDir, userid]);
+    
+    let output = '';
+    let error = '';
+    
+    pythonProcess.stdout.on('data', (data) => {
+        output += data.toString();
+        console.log('Python output: ' + data.toString());
     });
     
-    res.json({
-        statusCode: result.status,
-        stdout: result.stdout,
-        stderr: result.stderr,
-        error: result.error
+    pythonProcess.stderr.on('data', (data) => {
+        error += data.toString();
+        console.error('Python error: ' + data.toString());
+    });
+    
+    pythonProcess.on('close', (code) => {
+        console.log('Python process exited with code ' + code);
+        
+        if (code !== 0) {
+            console.error('Python script failed with error: ' + error);
+            return res.status(500).send('推荐系统运行失败: ' + error);
+        }
+        
+        console.log('Python script completed successfully');
+        
+        // 从数据库中读取推荐结果
+        var selectRecommendResultSQL = `
+            SELECT recommendresult.userid, recommendresult.movieid, 
+                   recommendresult.rating, movieinfo.moviename, movieinfo.picture 
+            FROM recommendresult 
+            INNER JOIN movieinfo ON recommendresult.movieid = movieinfo.movieid 
+            WHERE recommendresult.userid = ${userid}
+            ORDER BY recommendresult.rating DESC
+            LIMIT 10`;
+        
+        connection.query(selectRecommendResultSQL, function(err, rows, fields) {
+            if (err) {
+                console.error('Database query error: ' + err);
+                return res.status(500).send('数据库查询失败');
+            }
+            
+            console.log('Read ' + rows.length + ' recommendations from database');
+            
+            var movieinfolist = [];
+            for (var i = 0; i < rows.length; i++) {
+                movieinfolist.push({
+                    userid: rows[i].userid,
+                    movieid: rows[i].movieid,
+                    rating: rows[i].rating.toFixed(4), // 格式化评分
+                    moviename: rows[i].moviename,
+                    picture: rows[i].picture
+                });
+                console.log('Recommendation ' + (i+1) + ': ' + rows[i].moviename + ' (rating: ' + rows[i].rating + ')');
+            }
+            
+            if (movieinfolist.length === 0) {
+                console.log('No recommendations found for user ' + userid);
+                movieinfolist.push({
+                    userid: userid,
+                    movieid: 0,
+                    rating: 0,
+                    moviename: '暂无推荐结果，请尝试评分更多电影',
+                    picture: 'default.jpg'
+                });
+            }
+            
+            app.set('view engine', 'jade');
+            res.render('recommendresult', {
+                title: 'Recommend Result', 
+                message: '为您推荐的电影', 
+                username: username, 
+                movieinfo: movieinfolist
+            });
+            app.set('view engine', 'html');
+        });
+    });
+    
+    pythonProcess.on('error', (err) => {
+        console.error('Failed to start Python process: ' + err);
+        return res.status(500).send('无法启动推荐系统: ' + err.message);
+    });
+});
+
+/**
+ * 查看历史推荐结果（不重新计算）
+ */
+app.get('/viewrecommendations', function (req, res) {
+    const userid = req.query.userid;
+    const username = req.query.username;
+    
+    console.log('Viewing recommendations for user: ' + userid);
+    
+    var selectRecommendResultSQL = `
+        SELECT recommendresult.userid, recommendresult.movieid, 
+               recommendresult.rating, movieinfo.moviename, movieinfo.picture 
+        FROM recommendresult 
+        INNER JOIN movieinfo ON recommendresult.movieid = movieinfo.movieid 
+        WHERE recommendresult.userid = ${userid}
+        ORDER BY recommendresult.rating DESC
+        LIMIT 10`;
+    
+    connection.query(selectRecommendResultSQL, function(err, rows, fields) {
+        if (err) {
+            console.error('Database query error: ' + err);
+            return res.status(500).send('数据库查询失败');
+        }
+        
+        console.log('Found ' + rows.length + ' existing recommendations');
+        
+        var movieinfolist = [];
+        for (var i = 0; i < rows.length; i++) {
+            movieinfolist.push({
+                userid: rows[i].userid,
+                movieid: rows[i].movieid,
+                rating: rows[i].rating.toFixed(4),
+                moviename: rows[i].moviename,
+                picture: rows[i].picture
+            });
+        }
+        
+        if (movieinfolist.length === 0) {
+            movieinfolist.push({
+                userid: userid,
+                movieid: 0,
+                rating: 0,
+                moviename: '暂无历史推荐，请先进行电影推荐',
+                picture: 'default.jpg'
+            });
+        }
+        
+        app.set('view engine', 'jade');
+        res.render('recommendresult', {
+            title: 'Recommend Result', 
+            message: '您的历史推荐', 
+            username: username, 
+            movieinfo: movieinfolist
+        });
+        app.set('view engine', 'html');
+    });
+});
+
+/**
+ * 清空用户推荐结果（用于测试）
+ */
+app.get('/clearrecommendations', function (req, res) {
+    const userid = req.query.userid;
+    
+    if (!userid) {
+        return res.status(400).send('用户ID不能为空');
+    }
+    
+    connection.query('DELETE FROM recommendresult WHERE userid = ?', [userid], function(err, result) {
+        if (err) {
+            console.error('Error clearing recommendations: ' + err);
+            return res.status(500).send('清除推荐结果失败');
+        }
+        
+        console.log('Cleared recommendations for user ' + userid + ', affected rows: ' + result.affectedRows);
+        res.send('已清除用户 ' + userid + ' 的推荐结果，影响行数: ' + result.affectedRows);
+    });
+});
+
+/**
+ * 查看用户评分记录
+ */
+app.get('/viewuserratings', function (req, res) {
+    const userid = req.query.userid;
+    const username = req.query.username;
+    
+    var selectRatingsSQL = `
+        SELECT personalratings.userid, personalratings.movieid, 
+               personalratings.rating, movieinfo.moviename, movieinfo.picture 
+        FROM personalratings 
+        INNER JOIN movieinfo ON personalratings.movieid = movieinfo.movieid 
+        WHERE personalratings.userid = ${userid}
+        ORDER BY personalratings.rating DESC`;
+    
+    connection.query(selectRatingsSQL, function(err, rows, fields) {
+        if (err) {
+            console.error('Database query error: ' + err);
+            return res.status(500).send('数据库查询失败');
+        }
+        
+        console.log('Found ' + rows.length + ' ratings for user ' + userid);
+        
+        var ratinglist = [];
+        for (var i = 0; i < rows.length; i++) {
+            ratinglist.push({
+                userid: rows[i].userid,
+                movieid: rows[i].movieid,
+                rating: rows[i].rating,
+                moviename: rows[i].moviename,
+                picture: rows[i].picture
+            });
+        }
+        
+        app.set('view engine', 'jade');
+        res.render('userratings', {
+            title: 'User Ratings', 
+            username: username, 
+            ratings: ratinglist
+        });
+        app.set('view engine', 'html');
     });
 });
 
 var  server=app.listen(3000,function () {
     console.log("movierecommend server start on port 3000......");
-    console.log("Python script path: /home/zsh/movierecommendapp/movie_als/movie_als.py");
-    console.log("Data directory: /home/zsh/ml-latest-small");
 })
