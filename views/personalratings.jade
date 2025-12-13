@@ -65,6 +65,8 @@ html
 
   body
     h1(style="font-size:40px; margin:35px 0 35px 35px") 热烈欢迎用户: #{username},请您为以下电影打分:
+    if selectedGenres && selectedGenres.length
+      p(style="margin:0 0 20px 35px; font-size:20px;") 您选择的类型：#{selectedGenres.join('、')}
     form(action='/submituserscore', method='post')
        input(type='text',style="visibility: hidden;width:0px; height:0px;",name='userid', value=userid)
        table( cellpadding="5" cellspacing="5")

@@ -1,0 +1,376 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    title!= title
+    style.
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Open Sans', sans-serif;
+        background: #0f172a;
+        color: #fff;
+      }
+      .shell {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        padding: 40px 60px 80px;
+      }
+      header h1 {
+        margin: 0;
+        font-size: 34px;
+      }
+      header p {
+        margin: 6px 0 20px;
+        color: rgba(255,255,255,0.75);
+      }
+      .progress {
+        height: 6px;
+        background: rgba(255,255,255,0.15);
+        border-radius: 3px;
+        overflow: hidden;
+        margin-bottom: 25px;
+      }
+      .progress-bar {
+        height: 100%;
+        width: 0;
+        background: linear-gradient(90deg,#ff8a65,#ffca28);
+        transition: width 0.3s ease;
+      }
+      .movie-grid {
+        background: rgba(15,23,42,0.65);
+        border-radius: 20px;
+        padding: 30px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+      }
+      .row-title {
+        margin: 0 0 12px;
+        font-size: 18px;
+        letter-spacing: 0.5px;
+        color: rgba(255,255,255,0.8);
+      }
+      .card-row {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 16px;
+      }
+      .movie-card {
+        position: relative;
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 16px;
+        overflow: hidden;
+        padding-bottom: 12px;
+        min-height: 280px;
+        transition: transform 0.2s ease, border 0.2s ease;
+      }
+      .movie-card.selected {
+        border-color: #4ade80;
+        box-shadow: 0 12px 30px rgba(74,222,128,0.25);
+      }
+      .movie-card.ignored {
+        opacity: 0.35;
+        border-color: rgba(255,255,255,0.05);
+      }
+      .movie-card img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        display: block;
+      }
+      .movie-card .info {
+        padding: 12px 14px 40px;
+      }
+      .movie-card h3 {
+        margin: 0 0 6px;
+        font-size: 16px;
+        line-height: 1.3;
+      }
+      .movie-card .tags {
+        font-size: 12px;
+        color: rgba(255,255,255,0.7);
+      }
+      .movie-card .controls {
+        position: absolute;
+        bottom: 10px;
+        right: 12px;
+        display: flex;
+        gap: 8px;
+      }
+      .movie-card button {
+        border: none;
+        border-radius: 6px;
+        padding: 6px 10px;
+        cursor: pointer;
+        font-size: 13px;
+      }
+      .btn-like {
+        background: #22d3ee;
+        color: #0f172a;
+      }
+      .btn-ignore {
+        background: #b91c1c;
+        color: #fff;
+      }
+      .movie-card .corner-ignore {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #b91c1c;
+        border: none;
+        color: #fff;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 18px;
+        line-height: 30px;
+        text-align: center;
+      }
+      .action-bar {
+        margin-top: 30px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 16px;
+      }
+      .action-bar .step-text {
+        font-size: 16px;
+        color: rgba(255,255,255,0.85);
+      }
+      .action-bar button {
+        border: none;
+        border-radius: 999px;
+        padding: 12px 36px;
+        font-size: 16px;
+        cursor: pointer;
+        background: linear-gradient(135deg,#6366f1,#8b5cf6);
+        color: #fff;
+        box-shadow: 0 20px 40px rgba(99,102,241,0.35);
+        transition: transform 0.2s ease;
+      }
+      .action-bar button:hover {
+        transform: translateY(-2px);
+      }
+  body
+    .shell
+      header
+        h1 #{modeLabel}
+        p 请选择你感兴趣的电影：上排为符合你标签的影片，下排为其他影片。点击"喜欢"表示 5 分，保持默认即 1 分；点击右上角红色 × 表示没看过，将不会计分。
+      .progress
+        .progress-bar(id='progressBar')
+      .movie-grid
+        section
+          p.row-title 标签匹配电影
+          .card-row(id='topRow')
+        section
+          p.row-title 其他电影
+          .card-row(id='bottomRow')
+      .action-bar
+        span.step-text(id='stepInfo')
+        button(type='button', id='nextBtn') 下一步
+    form#ratingForm(action='/submituserscore', method='post')
+      input(type='hidden', name='userid', value=userid)
+      input(type='hidden', name='username', value=username)
+    script.
+      // 安全的HTML转义函数
+      function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+      
+      // 安全的属性转义函数
+      function escapeAttr(text) {
+        return String(text)
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;');
+      }
+      
+      const ratingConfig = {
+        userid: !{JSON.stringify(userid)},
+        username: !{JSON.stringify(username)},
+        stepsNeeded: !{JSON.stringify(stepsNeeded)},
+        modeLabel: !{JSON.stringify(modeLabel)},
+        selectedGenres: !{JSON.stringify(selectedGenres)},
+        matchingMovies: !{JSON.stringify(matchingMovies)},
+        fillerMovies: !{JSON.stringify(fillerMovies)}
+      };
+      
+      (function() {
+        const perCategory = 5;
+        const progressBar = document.getElementById('progressBar');
+        const topRow = document.getElementById('topRow');
+        const bottomRow = document.getElementById('bottomRow');
+        const stepInfo = document.getElementById('stepInfo');
+        const nextBtn = document.getElementById('nextBtn');
+        const state = {
+          currentStep: 0,
+          cardStates: {}
+        };
+
+        function sliceMovies(list, stepIndex) {
+          const start = stepIndex * perCategory;
+          return list.slice(start, start + perCategory);
+        }
+
+        function ensureState(movie) {
+          if (!state.cardStates[movie.movieid]) {
+            state.cardStates[movie.movieid] = {
+              info: movie,
+              rating: 1,
+              ignored: false
+            };
+          }
+        }
+
+        function getPoster(movie) {
+          return movie.picture && movie.picture.length ? movie.picture : 'https://dummyimage.com/300x420/1f2937/ffffff&text=Movie';
+        }
+
+        function createCard(movie, rowEl) {
+          ensureState(movie);
+          const card = document.createElement('div');
+          card.className = 'movie-card';
+          card.dataset.movieId = movie.movieid;
+          
+          // 使用转义后的值
+          const posterUrl = escapeAttr(getPoster(movie));
+          const movieName = escapeHtml(movie.moviename || '未命名影片');
+          const movieAlt = escapeAttr(movie.moviename || '');
+          const movieGenre = escapeHtml(movie.genre || '暂无标签');
+          
+          card.innerHTML = [
+            '<button type="button" class="corner-ignore">×</button>',
+            '<img src="' + posterUrl + '" alt="' + movieAlt + '" />',
+            '<div class="info">',
+            '  <h3>' + movieName + '</h3>',
+            '  <p class="tags">' + movieGenre + '</p>',
+            '</div>',
+            '<div class="controls">',
+            '  <button type="button" class="btn-like">喜欢</button>',
+            '</div>'
+          ].join('');
+          
+          rowEl.appendChild(card);
+          bindCardEvents(card, movie.movieid);
+          refreshCardState(card, movie.movieid);
+        }
+
+        function bindCardEvents(card, movieId) {
+          const likeBtn = card.querySelector('.btn-like');
+          const ignoreBtn = card.querySelector('.corner-ignore');
+          likeBtn.addEventListener('click', function() {
+            const record = state.cardStates[movieId];
+            record.ignored = false;
+            record.rating = record.rating === 5 ? 1 : 5;
+            refreshCardState(card, movieId);
+          });
+          ignoreBtn.addEventListener('click', function() {
+            const record = state.cardStates[movieId];
+            record.ignored = !record.ignored;
+            if (record.ignored) {
+              record.rating = null;
+            } else {
+              record.rating = 1;
+            }
+            refreshCardState(card, movieId);
+          });
+        }
+
+        function refreshCardState(card, movieId) {
+          const record = state.cardStates[movieId];
+          card.classList.remove('selected', 'ignored');
+          if (record.ignored) {
+            card.classList.add('ignored');
+          } else if (record.rating === 5) {
+            card.classList.add('selected');
+          }
+        }
+
+        function renderStep() {
+          const step = state.currentStep;
+          const topMovies = sliceMovies(ratingConfig.matchingMovies, step);
+          const bottomMovies = sliceMovies(ratingConfig.fillerMovies, step);
+
+          topRow.innerHTML = '';
+          bottomRow.innerHTML = '';
+
+          topMovies.forEach((movie) => createCard(movie, topRow));
+          bottomMovies.forEach((movie) => createCard(movie, bottomRow));
+
+          const progress = ((step) / ratingConfig.stepsNeeded) * 100;
+          progressBar.style.width = progress + '%';
+          const finalStep = ratingConfig.stepsNeeded - 1;
+          stepInfo.textContent = '第 ' + (step + 1) + ' / ' + ratingConfig.stepsNeeded + ' 轮';
+          nextBtn.textContent = step === finalStep ? '提交' : '下一步';
+        }
+
+        function submitRatings() {
+          const movieIds = [];
+          const movieScores = [];
+          Object.keys(state.cardStates).forEach((movieId) => {
+            const entry = state.cardStates[movieId];
+            if (entry.ignored) {
+              return;
+            }
+            if (entry.rating === null) {
+              return;
+            }
+            movieIds.push(movieId);
+            movieScores.push(entry.rating === 5 ? 5 : 1);
+          });
+
+          if (!movieIds.length) {
+            alert('请至少选择一个电影或取消全部未看状态。');
+            return;
+          }
+
+          const form = document.getElementById('ratingForm');
+          form.innerHTML = '';
+          const hiddenUser = document.createElement('input');
+          hiddenUser.type = 'hidden';
+          hiddenUser.name = 'userid';
+          hiddenUser.value = ratingConfig.userid;
+          form.appendChild(hiddenUser);
+          const hiddenUsername = document.createElement('input');
+          hiddenUsername.type = 'hidden';
+          hiddenUsername.name = 'username';
+          hiddenUsername.value = ratingConfig.username;
+          form.appendChild(hiddenUsername);
+
+          movieIds.forEach((id, index) => {
+            const mid = document.createElement('input');
+            mid.type = 'hidden';
+            mid.name = 'movieid';
+            mid.value = id;
+            form.appendChild(mid);
+            const score = document.createElement('input');
+            score.type = 'hidden';
+            score.name = 'moviescore';
+            score.value = movieScores[index];
+            form.appendChild(score);
+          });
+
+          form.submit();
+        }
+
+        nextBtn.addEventListener('click', function() {
+          if (state.currentStep < ratingConfig.stepsNeeded - 1) {
+            state.currentStep += 1;
+            renderStep();
+          } else {
+            submitRatings();
+          }
+        });
+
+        renderStep();
+      })();
