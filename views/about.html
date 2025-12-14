@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>电影列表 - 电影推荐系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style type="text/css">
+        /* ========== CSS变量和基础重置 ========== */
+        :root {
+            --primary: #4361ee;
+            --primary-light: #5874f5;
+            --primary-dark: #3a56d4;
+            --primary-gradient: linear-gradient(135deg, #4361ee 0%, #7b61ee 100%);
+            --secondary: #f8f9fa;
+            --text-main: #2d3748;
+            --text-secondary: #718096;
+            --text-white: #ffffff;
+            --bg-gradient: linear-gradient(135deg, #e0f7fa 0%, #f3e5f5 100%);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --shadow-light: rgba(67, 97, 238, 0.08);
+            --shadow-medium: rgba(67, 97, 238, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        html, body {
+            font-family: 'Inter', sans-serif;
+            background: var(--secondary);
+            color: var(--text-main);
+            min-height: 100vh;
+        }
+
+        /* ========== 头部样式 ========== */
+        #home {
+            padding: 1.2em 0;
+            background: var(--bg-gradient);
+            box-shadow: 0 4px 12px var(--shadow-light);
+            z-index: 100;
+        }
+
+        .header-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .logo img {
+            height: 50px;
+            width: auto;
+            border-radius: var(--radius-sm);
+            display: block;
+        }
+
+        .menu {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .menu ul.nav {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu ul.nav li {
+            display: inline-block;
+            margin: 0;
+            list-style: none;
+        }
+
+        .menu li a {
+            display: block;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--primary);
+            padding: 8px 0;
+            position: relative;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .menu li a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .menu li a:hover, .menu li a.active {
+            color: var(--primary-dark);
+        }
+
+        .menu li a:hover::after {
+            width: 100%;
+        }
+
+        .top-nav {
+            flex-shrink: 0;
+        }
+
+        .top-nav ul {
+            display: flex;
+            gap: 12px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .top-nav ul li {
+            list-style: none;
+        }
+
+        .top-nav ul li a {
+            color: var(--primary);
+            font-size: 13px;
+            font-weight: 600;
+            padding: 8px 16px;
+            background: var(--text-white);
+            border-radius: var(--radius-sm);
+            box-shadow: 0 2px 8px var(--shadow-light);
+            display: inline-block;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .top-nav ul li a:hover {
+            color: var(--text-white);
+            background: var(--primary-gradient);
+            box-shadow: 0 4px 12px var(--shadow-medium);
+            transform: translateY(-2px);
+        }
+
+        /* ========== 主容器 ========== */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            color: var(--text-main);
+            text-align: center;
+        }
+
+        /* ========== 搜索和筛选栏 ========== */
+        .filter-bar {
+            background: var(--text-white);
+            padding: 20px;
+            border-radius: var(--radius-md);
+            box-shadow: 0 2px 8px var(--shadow-light);
+            margin-bottom: 30px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+
+        .search-box button {
+            padding: 10px 25px;
+            background: var(--primary-gradient);
+            color: var(--text-white);
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-box button:hover {
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .sort-box {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .sort-box label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .sort-box select {
+            padding: 8px 12px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: var(--radius-sm);
+            background: var(--text-white);
+            color: var(--text-main);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .sort-box select:hover {
+            border-color: var(--primary);
+        }
+
+        .sort-box select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+
+        /* ========== 电影网格 ========== */
+        .movies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .movie-card {
+            background: var(--text-white);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: 0 2px 8px var(--shadow-light);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px var(--shadow-medium);
+        }
+
+        .movie-poster {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            background: var(--secondary);
+        }
+
+        .movie-info {
+            padding: 12px;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .movie-name {
+            font-size: 14px;
+            font-weight: 500;
+            text-align: center;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* ========== 分页 ========== */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 40px 0;
+        }
+
+        .pagination button {
+            padding: 8px 12px;
+            border: 1.5px solid #e2e8f0;
+            background: var(--text-white);
+            color: var(--text-main);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .pagination button:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .pagination button.active {
+            background: var(--primary-gradient);
+            color: var(--text-white);
+            border-color: var(--primary);
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* ========== 加载和空状态 ========== */
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--shadow-light);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-state p {
+            font-size: 16px;
+            color: var(--text-secondary);
+        }
+
+        /* ========== 响应式设计 ========== */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 30px 15px;
+            }
+
+            .page-title {
+                font-size: 24px;
+                margin-bottom: 30px;
+            }
+
+            .filter-bar {
+                flex-direction: column;
+            }
+
+            .search-box {
+                min-width: auto;
+            }
+
+            .sort-box {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .movies-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 15px;
+            }
+
+            .movie-poster {
+                height: 190px;
+            }
+
+            .menu ul.nav {
+                gap: 20px;
+            }
+
+            .menu li a {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-wrapper {
+                flex-direction: column;
+                gap: 10px;
+                align-items: stretch;
+            }
+
+            .logo {
+                text-align: center;
+            }
+
+            .menu ul.nav {
+                justify-content: center;
+                gap: 15px;
+                flex-wrap: wrap;
+            }
+
+            .main-container {
+                padding: 20px 10px;
+            }
+
+            .page-title {
+                font-size: 20px;
+                margin-bottom: 20px;
+            }
+
+            .filter-bar {
+                padding: 15px;
+                gap: 10px;
+            }
+
+            .search-box input {
+                font-size: 13px;
+                padding: 8px 10px;
+            }
+
+            .search-box button {
+                padding: 8px 15px;
+                font-size: 13px;
+            }
+
+            .movies-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 12px;
+            }
+
+            .movie-poster {
+                height: 160px;
+            }
+
+            .movie-info {
+                padding: 8px;
+            }
+
+            .movie-name {
+                font-size: 12px;
+            }
+
+            .pagination {
+                gap: 5px;
+            }
+
+            .pagination button {
+                padding: 6px 8px;
+                font-size: 12px;
+            }
+
+            .top-nav ul li a {
+                padding: 6px 12px;
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- 头部区域 -->
+<div id="home" class="header">
+    <div class="header-wrapper">
+        <div class="logo">
+            <a><img src="https://picsum.photos/120/60" alt="Logo"></a>
+        </div>
+        <div class="menu">
+            <ul class="nav" id="nav">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="about.html" class="active">电影</a></li>
+            </ul>
+        </div>
+        <div class="top-nav">
+            <ul>
+                <li><a onclick="window.location='/loginpage'">登录</a></li>
+                <li><a onclick="window.location='/registerpage'">注册</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- 主容器 -->
+<div class="main-container">
+    <h1 class="page-title">电影库</h1>
+
+    <!-- 搜索和筛选栏 -->
+    <div class="filter-bar">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="搜索电影名称...">
+            <button id="searchBtn">搜索</button>
+        </div>
+        <div class="sort-box">
+            <label>排序：</label>
+            <select id="sortSelect">
+                <option value="newest">最新</option>
+                <option value="name">名称 A-Z</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- 电影网格 -->
+    <div class="movies-grid" id="moviesContainer">
+        <div class="loading">
+            <div class="spinner"></div>
+            <p>加载电影中...</p>
+        </div>
+    </div>
+
+    <!-- 分页 -->
+    <div class="pagination" id="paginationContainer"></div>
+</div>
+
+<script>
+    (function() {
+        const PAGE_SIZE = 24;
+        let currentPage = 1;
+        let allMovies = [];
+        let filteredMovies = [];
+        let searchKeyword = '';
+
+        // 加载所有电影
+        function loadAllMovies() {
+            const container = document.getElementById('moviesContainer');
+            container.innerHTML = '<div class="loading"><div class="spinner"></div><p>加载电影中...</p></div>';
+
+            fetch('/api/movies?limit=1000&offset=0')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.data) {
+                        allMovies = data.data;
+                        filteredMovies = allMovies;
+                        currentPage = 1;
+                        renderMovies();
+                        renderPagination();
+                    } else {
+                        throw new Error('Failed to load movies');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    container.innerHTML = '<div class="empty-state"><p>加载电影失败，请稍后重试</p></div>';
+                });
+        }
+
+        // 渲染电影
+        function renderMovies() {
+            const container = document.getElementById('moviesContainer');
+            
+            if (filteredMovies.length === 0) {
+                container.innerHTML = '<div class="empty-state" style="grid-column: 1/-1;"><p>没有找到相关电影</p></div>';
+                return;
+            }
+
+            const start = (currentPage - 1) * PAGE_SIZE;
+            const end = start + PAGE_SIZE;
+            const movies = filteredMovies.slice(start, end);
+
+            container.innerHTML = movies.map(movie => `
+                <div class="movie-card">
+                    <img src="${movie.picture}" alt="${movie.moviename}" class="movie-poster" 
+                         onerror="this.src='https://via.placeholder.com/160x220?text=No+Image'">
+                    <div class="movie-info">
+                        <div class="movie-name">${movie.moviename}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 渲染分页
+        function renderPagination() {
+            const container = document.getElementById('paginationContainer');
+            const totalPages = Math.ceil(filteredMovies.length / PAGE_SIZE);
+
+            if (totalPages <= 1) {
+                container.innerHTML = '';
+                return;
+            }
+
+            let html = '';
+
+            // 上一页
+            if (currentPage > 1) {
+                html += `<button onclick="window.app.goToPage(${currentPage - 1})">上一页</button>`;
+            } else {
+                html += '<button disabled>上一页</button>';
+            }
+
+            // 页码
+            const startPage = Math.max(1, currentPage - 2);
+            const endPage = Math.min(totalPages, currentPage + 2);
+
+            if (startPage > 1) {
+                html += '<button onclick="window.app.goToPage(1)">1</button>';
+                if (startPage > 2) html += '<span>...</span>';
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                html += `<button ${i === currentPage ? 'class="active"' : ''} onclick="window.app.goToPage(${i})">${i}</button>`;
+            }
+
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) html += '<span>...</span>';
+                html += `<button onclick="window.app.goToPage(${totalPages})">${totalPages}</button>`;
+            }
+
+            // 下一页
+            if (currentPage < totalPages) {
+                html += `<button onclick="window.app.goToPage(${currentPage + 1})">下一页</button>`;
+            } else {
+                html += '<button disabled>下一页</button>';
+            }
+
+            container.innerHTML = html;
+        }
+
+        // 搜索电影
+        function searchMovies() {
+            searchKeyword = document.getElementById('searchInput').value.toLowerCase().trim();
+            
+            if (searchKeyword === '') {
+                filteredMovies = allMovies;
+            } else {
+                filteredMovies = allMovies.filter(movie => 
+                    movie.moviename.toLowerCase().includes(searchKeyword)
+                );
+            }
+
+            currentPage = 1;
+            renderMovies();
+            renderPagination();
+        }
+
+        // 排序电影
+        function sortMovies() {
+            const sortBy = document.getElementById('sortSelect').value;
+            
+            if (sortBy === 'newest') {
+                filteredMovies.sort((a, b) => b.movieid - a.movieid);
+            } else if (sortBy === 'name') {
+                filteredMovies.sort((a, b) => 
+                    a.moviename.localeCompare(b.moviename, 'zh-CN')
+                );
+            }
+
+            currentPage = 1;
+            renderMovies();
+            renderPagination();
+        }
+
+        // 事件监听
+        document.getElementById('searchBtn').addEventListener('click', searchMovies);
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') searchMovies();
+        });
+        document.getElementById('sortSelect').addEventListener('change', sortMovies);
+
+        // 暴露全局方法
+        window.app = {
+            goToPage: function(page) {
+                currentPage = page;
+                renderMovies();
+                renderPagination();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        };
+
+        // 页面加载完成后加载电影
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadAllMovies);
+        } else {
+            loadAllMovies();
+        }
+    })();
+</script>
+</body>
+</html>

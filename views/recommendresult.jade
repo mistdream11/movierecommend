@@ -1,179 +1,237 @@
-html
+doctype html
+html(lang='zh-CN')
   head
-    title!= title
-    meta(name='referrer' content='never')
-    title Login
-    | &#x9;&#x9;
     meta(charset='utf-8')
-    | &#x9;&#x9;
     meta(name='viewport', content='width=device-width, initial-scale=1')
-    | &#x9;&#x9;
-    script(type='application/x-javascript').
-      addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); }
-    | &#x9;&#x9;
+    title #{title}
+    link(href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap', rel='stylesheet')
     style(type='text/css').
-      /* reset */
-      html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,dl,dt,dd,ol,nav ul,nav li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;}
-      article, aside, details, figcaption, figure,footer, header, hgroup, menu, nav, section {display: block;}
-      ol,ul{list-style:none;margin:0px;padding:0px;}
-      blockquote,q{quotes:none;}
-      blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}
-      table{border-collapse:collapse;border-spacing:0;}
-      /* start editing from here */
-      a{text-decoration:none;}
-      .txt-rt{text-align:right;}/* text align right */
-      .txt-lt{text-align:left;}/* text align left */
-      .txt-center{text-align:center;}/* text align center */
-      .float-rt{float:right;}/* float right */
-      .float-lt{float:left;}/* float left */
-      .clear{clear:both;}/* clear float */
-      .pos-relative{position:relative;}/* Position Relative */
-      .pos-absolute{position:absolute;}/* Position Absolute */
-      .vertical-base{	vertical-align:baseline;}/* vertical align baseline */
-      .vertical-top{	vertical-align:top;}/* vertical align top */
-      nav.vertical ul li{	display:block;}/* vertical menu */
-      nav.horizontal ul li{	display: inline-block;}/* horizontal menu */
-      img{max-width:100%;}
-      /*end reset*/
-      /****-----start-body----****/
-      body{
-      background:#F7DA55;
-      font-family: 'Open Sans', sans-serif;
+      /* ========== CSS变量和基础重置 ========== */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        -webkit-font-smoothing: antialiased;
       }
-      .login-form {
-      background:#eee;
-      width: 26%;
-      margin:9% auto 4% auto;
-      position: relative;
-      -webkit-border-radius: 0.4em;
-      -o-border-radius: 0.4em;
-      -moz-border-radius: 0.4em;
-      
-      }
-      .head {
-      position: absolute;
-      top:-15%;
-      left: 35%;
-      }
-      .head img {
-      border-radius:50%;
-      -webkit-border-radius:50%;
-      -o-border-radius:50%;
-      -moz-border-radius:50%;
-      border:6px solid rgba(221, 218, 215, 0.23);
-      }
-      .main{
-      position:relative;
-      }
-      .main h1{
-      font-size:25px;
-      color:#676767;
-      font-family: 'Open Sans', sans-serif;
-      font-weight:400;
-      padding-top: 0;
-      text-align: center;
-      }
-      .main form {
-      width: 80%;
-      margin: 0 auto;
-      padding: 6% 0 9% 0;
-      }
-      .main p {
-      text-align: center;
-      }
-      .main form p a {
-      color: #888;
-      font-family: 'Open Sans', sans-serif;
-      }
-      form p a:hover {
-      color:#21A957;
-      }
-      
-      /****************/
-      .copy-right {
-      position: absolute;
-      bottom:-19%;
-      left: 43.7%;
-      }
-      .copy-right p {
-      color: #fff;
-      font-size: 1em;
-      font-family: 'Open Sans', sans-serif;
-      font-weight: 600;
-      }
-      .copy-right p a {
-      font-family: 'Open Sans', sans-serif;
-      font-size: 1em;
-      color:#21A957;
-      -webkit-transition: all 0.3s ease-out;
-      -moz-transition: all 0.3s ease-out;
-      -ms-transition: all 0.3s ease-out;
-      -o-transition: all 0.3s ease-out;
-      transition: all 0.3s ease-out;
-      }
-      .copy-right p a:hover{
-      color:#fff;
-      }
-      /*-----start-responsive-design------*/
-      @media (max-width:1440px){
-      .login-form {
-      width:30%;
-      margin: 11% auto 4% auto;
-      }
-      .main h1 {
-      padding-top: 23%;
-      }
-      .copy-right {
-      bottom: -26%;
-      }
-      }
-      @media (max-width:1366px){
-      .login-form {
-      width: 32%;
-      margin: 10% auto 4% auto;
-      }
-      }
-      @media (max-width:1280px){
 
-      .copy-right {
-      left: 41%;
-      bottom:-18%;
+      :root {
+        --bg-gradient: linear-gradient(135deg, #e0f7fa 0%, #f3e5f5 100%);
+        --primary: #4361ee;
+        --primary-light: #5874f5;
+        --primary-dark: #3a56d4;
+        --text-main: #2d3748;
+        --text-secondary: #718096;
+        --card-bg: #ffffff;
+        --shadow: 0 4px 12px rgba(67, 97, 238, 0.12);
       }
+
+      body {
+        background: var(--bg-gradient);
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        color: var(--text-main);
+        min-height: 100vh;
+        padding: 40px 20px;
       }
-      
-      .copy-right {
-      left: 41%;
-      bottom:-18%;
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
       }
+
+      h1 {
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 30px;
+        text-align: center;
+        background: linear-gradient(135deg, var(--primary), #7b61ee);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
       }
-      @media (max-width:768px){
-      .login-form  {
-      margin: 16% auto 0;
-      width: 59%;
+
+      /* ========== 推荐电影卡片网格 ========== */
+      .recommendations-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 24px;
+        margin-bottom: 40px;
       }
-      .copy-right {
-      left:38%;
-      bottom:-14%;
+
+      .recommendation-card {
+        background: var(--card-bg);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
       }
+
+      .recommendation-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 24px rgba(67, 97, 238, 0.18);
       }
-      @media (max-width:640px){
-      .login-form {
-      margin: 20% auto 0;
-      width: 63%;
+
+      .recommendation-card img {
+        width: 100%;
+        height: 280px;
+        object-fit: cover;
       }
-      .copy-right {
-      left:36%;
-      bottom:-18%;
+
+      .card-content {
+        padding: 20px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
       }
+
+      .movie-name {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 12px;
+        color: var(--text-main);
+        line-height: 1.4;
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+      }
+
+      /* ========== 操作按钮 ========== */
+      .card-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: auto;
+      }
+
+      .card-btn {
+        flex: 1;
+        padding: 10px 12px;
+        border: none;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        text-align: center;
+      }
+
+      .btn-view {
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        color: #ffffff;
+      }
+
+      .btn-view:hover {
+        background: linear-gradient(135deg, var(--primary-light), var(--primary));
+        box-shadow: 0 4px 12px rgba(67, 97, 238, 0.2);
+        transform: translateY(-1px);
+      }
+
+      .btn-favorite {
+        background: #fff5f7;
+        color: #ec4899;
+        border: 1.5px solid #fbcfe8;
+      }
+
+      .btn-favorite:hover {
+        background: #ec4899;
+        color: #ffffff;
+      }
+
+      /* ========== 页脚操作 ========== */
+      .actions-footer {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        padding: 20px;
+      }
+
+      .btn {
+        padding: 12px 32px;
+        border: none;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.25s ease;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        color: #ffffff;
+        box-shadow: 0 4px 12px rgba(67, 97, 238, 0.2);
+      }
+
+      .btn-primary:hover {
+        background: linear-gradient(135deg, var(--primary-light), var(--primary));
+        box-shadow: 0 6px 16px rgba(67, 97, 238, 0.25);
+        transform: translateY(-2px);
+      }
+
+      .btn-secondary {
+        background: var(--card-bg);
+        color: var(--text-main);
+        border: 1.5px solid #e2e8f0;
+      }
+
+      .btn-secondary:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+      }
+
+      /* ========== 响应式设计 ========== */
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 24px;
+          margin-bottom: 20px;
+        }
+
+        .recommendations-grid {
+          grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+          gap: 16px;
+        }
+
+        .recommendation-card img {
+          height: 220px;
+        }
+
+        .card-content {
+          padding: 15px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        body {
+          padding: 20px 10px;
+        }
+
+        .recommendations-grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 12px;
+        }
+
+        .btn {
+          padding: 10px 20px;
+          font-size: 14px;
+        }
       }
 
   body
-    h1(style="font-size:40px; margin:35px 0 35px 35px") 亲爱的用户:#{username},猜你喜欢电影:
-    table( cellpadding="5" cellspacing="5")
-         tr
-           -for(var i=0;i<movieinfo.length;i++)
-            td
-              p(style="font-size:25px;margin:45px") #{movieinfo[i].moviename}
-              img(src=movieinfo[i].picture style="margin:35px")
-            -if((i+1)%5==0)
-             tr
+    div.container
+      h1 亲爱的用户 #{username}，猜你喜欢的电影:
+      
+      div.recommendations-grid
+        -if(movieinfo && movieinfo.length > 0)
+          -for(var i = 0; i < movieinfo.length; i++)
+            div.recommendation-card
+              img(src=movieinfo[i].picture, alt=movieinfo[i].moviename)
+              div.card-content
+                div.movie-name= movieinfo[i].moviename
+                div.card-actions
+                  button.card-btn.btn-view(type='button', onclick=`alert('查看详情: ${movieinfo[i].moviename}')`) 查看详情
+                  button.card-btn.btn-favorite(type='button', onclick=`alert('已添加到收藏: ${movieinfo[i].moviename}')`) ♥ 收藏
+        -else
+          p(style='text-align: center; color: var(--text-secondary); padding: 40px;') 暂无推荐电影
+      
+      div.actions-footer
+        button.btn.btn-primary(onclick="location.href='/loginpage'") 返回首页
+        button.btn.btn-secondary(onclick="location.href='/personalratings'") 继续评分

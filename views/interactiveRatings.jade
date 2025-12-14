@@ -4,98 +4,201 @@ html
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     title!= title
+    // 引入Inter字体（统一风格）
+    link(href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap', rel='stylesheet')
     style.
+      /* ========== 全局CSS变量（采用loginpage蓝紫调风格） ========== */
+      :root {
+        /* 主色调 - 蓝紫调（与登录页一致） */
+        --primary: #4361ee; /* 核心蓝紫 */
+        --primary-light: #5874f5; /* 主色浅调（hover） */
+        --primary-dark: #3a56d4; /* 主色深调（active） */
+        --primary-gradient: linear-gradient(135deg, #4361ee 0%, #3a56d4 100%); /* 蓝紫渐变 */
+        
+        /* 辅助色 - 与登录页保持一致 */
+        --secondary: #ffffff;
+        --bg-header: linear-gradient(135deg, #e0f7fa 0%, #f3e5f5 100%); /* 页面渐变背景 */
+        --card-bg: #ffffff; /* 纯白卡片 */
+        --card-border: rgba(67, 97, 238, 0.15); /* 蓝紫调边框 */
+        
+        /* 文字色 - 与登录页一致 */
+        --text-main: #2d3748;       /* 主要文本（深灰） */
+        --text-secondary: #718096;  /* 次要文本（浅灰） */
+        --text-tertiary: #5c677d;
+        
+        /* 功能色 - 适配蓝紫风格 */
+        --success: #22c55e;
+        --danger: #ef4444;
+        --info: #4361ee; /* 使用主色作为信息色 */
+        
+        /* 尺寸与圆角（与登录页风格匹配） */
+        --radius-sm: 6px;
+        --radius-md: 10px; /* 与输入框圆角一致 */
+        --radius-lg: 16px; /* 与表单圆角一致 */
+        --radius-xl: 16px;
+        --radius-full: 999px;
+        
+        /* 阴影 - 蓝紫调柔和阴影（与登录页一致） */
+        --shadow-light: rgba(67, 97, 238, 0.08);
+        --shadow-medium: rgba(67, 97, 238, 0.12);
+        --shadow-strong: rgba(67, 97, 238, 0.18);
+        --shadow-btn: 0 4px 12px rgba(67, 97, 238, 0.2); /* 按钮阴影 */
+      }
+
+      /* 基础样式重置 */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        transition: all 0.25s ease; /* 稍快的过渡效果 */
+        font-smoothing: antialiased;
+        -webkit-font-smoothing: antialiased;
+      }
+
       body {
         margin: 0;
         padding: 0;
-        font-family: 'Open Sans', sans-serif;
-        background: #0f172a;
-        color: #fff;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif; /* 与登录页一致的字体栈 */
+        background: var(--bg-header); /* 统一的渐变背景 */
+        color: var(--text-main);
       }
+
       .shell {
         min-height: 100vh;
         display: flex;
         flex-direction: column;
-        padding: 40px 60px 80px;
+        padding: 40px 20px 80px;
+        max-width: 1400px;
+        margin: 0 auto;
       }
+
       header h1 {
         margin: 0;
         font-size: 34px;
+        font-weight: 700;
+        /* 标题渐变文字（与登录页一致） */
+        background: linear-gradient(135deg, var(--primary), #7b61ee);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 12px;
       }
+
       header p {
         margin: 6px 0 20px;
-        color: rgba(255,255,255,0.75);
+        color: var(--text-secondary);
+        line-height: 1.6;
+        font-size: 15px;
       }
+
+      /* 进度条样式（蓝紫渐变） */
       .progress {
         height: 6px;
-        background: rgba(255,255,255,0.15);
-        border-radius: 3px;
+        background: rgba(67, 97, 238, 0.1); /* 更浅的背景 */
+        border-radius: var(--radius-sm);
         overflow: hidden;
         margin-bottom: 25px;
       }
+
       .progress-bar {
         height: 100%;
         width: 0;
-        background: linear-gradient(90deg,#ff8a65,#ffca28);
+        background: var(--primary-gradient); /* 蓝紫渐变进度条 */
         transition: width 0.3s ease;
       }
+
+      /* 电影网格容器（与登录页表单风格匹配） */
       .movie-grid {
-        background: rgba(15,23,42,0.65);
-        border-radius: 20px;
+        background: var(--card-bg);
+        border-radius: var(--radius-lg);
         padding: 30px;
         flex: 1;
         display: flex;
         flex-direction: column;
         gap: 30px;
-        box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+        box-shadow: 
+          var(--shadow-light) 0 4px 6px,
+          var(--shadow-medium) 0 10px 15px -3px,
+          var(--shadow-light) 0 4px 6px -4px;
+        border: 1px solid var(--card-border);
+        /* 轻微内阴影增加层次感 */
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 
+                    var(--shadow-light) 0 4px 6px,
+                    var(--shadow-medium) 0 10px 15px -3px,
+                    var(--shadow-light) 0 4px 6px -4px;
       }
+
       .row-title {
         margin: 0 0 12px;
         font-size: 18px;
         letter-spacing: 0.5px;
-        color: rgba(255,255,255,0.8);
+        color: var(--text-tertiary);
+        font-weight: 600;
       }
+
+      /* 卡片行布局 */
       .card-row {
         display: grid;
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
         gap: 16px;
       }
+
+      /* 电影卡片（与登录页风格匹配） */
       .movie-card {
         position: relative;
-        background: rgba(255,255,255,0.05);
-        border: 1px solid rgba(255,255,255,0.12);
-        border-radius: 16px;
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: var(--radius-lg);
         overflow: hidden;
         padding-bottom: 12px;
         min-height: 280px;
-        transition: transform 0.2s ease, border 0.2s ease;
+        transition: transform 0.2s ease, border 0.2s ease, box-shadow 0.2s ease;
       }
+
+      .movie-card:hover {
+        transform: translateY(-2px); /* 轻微上浮效果 */
+        box-shadow: 
+          var(--shadow-light) 0 6px 8px,
+          var(--shadow-medium) 0 12px 20px -3px,
+          var(--shadow-light) 0 6px 8px -4px;
+        border-color: var(--primary-light);
+      }
+
       .movie-card.selected {
-        border-color: #4ade80;
-        box-shadow: 0 12px 30px rgba(74,222,128,0.25);
+        border-color: var(--success);
+        box-shadow: 0 12px 30px rgba(34, 197, 94, 0.25);
       }
+
       .movie-card.ignored {
         opacity: 0.35;
-        border-color: rgba(255,255,255,0.05);
+        border-color: rgba(67, 97, 238, 0.1);
       }
+
       .movie-card img {
         width: 100%;
         height: 180px;
         object-fit: cover;
         display: block;
+        border-bottom: 1px solid var(--card-border);
       }
+
       .movie-card .info {
         padding: 12px 14px 40px;
       }
+
       .movie-card h3 {
         margin: 0 0 6px;
         font-size: 16px;
         line-height: 1.3;
+        font-weight: 600;
+        color: var(--text-main);
       }
+
       .movie-card .tags {
         font-size: 12px;
-        color: rgba(255,255,255,0.7);
+        color: var(--text-secondary);
       }
+
       .movie-card .controls {
         position: absolute;
         bottom: 10px;
@@ -103,26 +206,40 @@ html
         display: flex;
         gap: 8px;
       }
+
+      /* 按钮样式（与登录页按钮风格统一） */
       .movie-card button {
         border: none;
-        border-radius: 6px;
+        border-radius: var(--radius-md);
         padding: 6px 10px;
         cursor: pointer;
         font-size: 13px;
+        font-weight: 500;
+        user-select: none;
       }
+
       .btn-like {
-        background: #22d3ee;
-        color: #0f172a;
+        background: var(--primary); /* 使用主色 */
+        color: white;
+        box-shadow: 0 2px 5px rgba(67, 97, 238, 0.2);
       }
-      .btn-ignore {
-        background: #b91c1c;
-        color: #fff;
+
+      .btn-like:hover {
+        background: var(--primary-light);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(67, 97, 238, 0.25);
       }
+
+      .btn-like:active {
+        background: var(--primary-dark);
+        transform: translateY(0);
+      }
+
       .movie-card .corner-ignore {
         position: absolute;
         top: 10px;
         right: 10px;
-        background: #b91c1c;
+        background: var(--danger);
         border: none;
         color: #fff;
         width: 30px;
@@ -132,32 +249,87 @@ html
         font-size: 18px;
         line-height: 30px;
         text-align: center;
+        opacity: 0.8;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 4px rgba(239, 68, 68, 0.2);
       }
+
+      .movie-card .corner-ignore:hover {
+        opacity: 1;
+        transform: scale(1.05);
+        box-shadow: 0 3px 6px rgba(239, 68, 68, 0.3);
+      }
+
+      /* 操作栏样式（与登录页按钮风格统一） */
       .action-bar {
         margin-top: 30px;
         display: flex;
         justify-content: flex-end;
         align-items: center;
         gap: 16px;
+        flex-wrap: wrap;
       }
+
       .action-bar .step-text {
         font-size: 16px;
-        color: rgba(255,255,255,0.85);
+        color: var(--text-tertiary);
       }
+
       .action-bar button {
         border: none;
-        border-radius: 999px;
-        padding: 12px 36px;
+        border-radius: var(--radius-md);
+        padding: 14px 36px;
         font-size: 16px;
         cursor: pointer;
-        background: linear-gradient(135deg,#6366f1,#8b5cf6);
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
         color: #fff;
-        box-shadow: 0 20px 40px rgba(99,102,241,0.35);
-        transition: transform 0.2s ease;
+        font-weight: 600;
+        box-shadow: var(--shadow-btn);
+        transition: all 0.25s ease;
+        user-select: none;
       }
+
       .action-bar button:hover {
         transform: translateY(-2px);
+        background: linear-gradient(135deg, var(--primary-light), var(--primary));
+        box-shadow: 0 6px 16px rgba(67, 97, 238, 0.25);
       }
+
+      .action-bar button:active {
+        transform: translateY(0);
+        background: linear-gradient(135deg, var(--primary-dark), #324ebe);
+        box-shadow: 0 2px 8px rgba(67, 97, 238, 0.2);
+      }
+
+      /* 响应式适配 */
+      @media (max-width: 768px) {
+        .card-row {
+          grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        }
+        
+        .movie-card {
+          min-height: 240px;
+        }
+        
+        .movie-card img {
+          height: 140px;
+        }
+        
+        .action-bar {
+          justify-content: center;
+        }
+        
+        .action-bar .step-text {
+          width: 100%;
+          text-align: center;
+          margin-bottom: 12px;
+        }
+        
+        header h1 {
+          font-size: 28px;
+        }
+      }
+
   body
     .shell
       header
@@ -233,7 +405,8 @@ html
         }
 
         function getPoster(movie) {
-          return movie.picture && movie.picture.length ? movie.picture : 'https://dummyimage.com/300x420/1f2937/ffffff&text=Movie';
+          // 蓝紫风格占位图（与登录页一致）
+          return movie.picture && movie.picture.length ? movie.picture : 'https://dummyimage.com/300x420/e0f7fa/4361ee&text=Movie';
         }
 
         function createCard(movie, rowEl) {

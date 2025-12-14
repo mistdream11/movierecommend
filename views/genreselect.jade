@@ -4,79 +4,223 @@ html
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     title 选择电影类型
+    // 引入Inter字体（与整体风格统一）
+    link(href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap', rel='stylesheet')
     style.
-      body {
-        font-family: 'Open Sans', sans-serif;
-        background: #f7f7f7;
-        margin: 0;
-        padding: 40px;
-        color: #333;
+      /* ========== 全局CSS变量（蓝紫渐变风格） ========== */
+      :root {
+        /* 主色调 */
+        --primary: #4361ee;
+        --primary-light: #5874f5;
+        --primary-dark: #3a56d4;
+        --primary-gradient: linear-gradient(135deg, #4361ee 0%, #7b61ee 100%);
+
+        /* 辅助色 */
+        --secondary: #f8f9fa;
+        --accent: #f1e85b;
+        --text-main: #2d3748;
+        --text-secondary: #718096;
+        --text-white: #ffffff;
+        --error-main: #e53e3e;
+        --error-light: #fef7fb;
+        --error-border: #feb2b2;
+
+        /* 尺寸与圆角 */
+        --radius-sm: 8px;
+        --radius-md: 12px;
+        --radius-lg: 16px;
+        --shadow-light: rgba(67, 97, 238, 0.08);
+        --shadow-medium: rgba(67, 97, 238, 0.12);
+        --shadow-strong: rgba(67, 97, 238, 0.18);
       }
+
+      /* 基础样式重置 */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      body {
+        font-family: 'Inter', sans-serif; /* 替换为现代Inter字体 */
+        background: linear-gradient(135deg, #e0f7fa 0%, #f3e5f5 100%); /* 蓝紫渐变背景 */
+        margin: 0;
+        padding: 40px 20px; /* 优化移动端内边距 */
+        color: var(--text-main);
+        min-height: 100vh;
+        display: flex;
+        align-items: center; /* 垂直居中 */
+        justify-content: center;
+      }
+
       .container {
         max-width: 960px;
+        width: 100%;
         margin: 0 auto;
-        background: #fff;
-        border-radius: 8px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-        padding: 30px 40px;
+        background: var(--secondary);
+        border-radius: var(--radius-lg); /* 大圆角 */
+        box-shadow: 0 12px 32px var(--shadow-medium); /* 蓝紫风格阴影 */
+        padding: 40px;
+        transform: translateY(0);
       }
+
+      .container:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 16px 40px var(--shadow-strong); /* 悬浮阴影增强 */
+      }
+
       h1 {
         margin-top: 0;
         font-size: 32px;
-        color: #222;
+        font-weight: 700;
+        /* 标题文字渐变 */
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 16px;
       }
+
       .intro {
         font-size: 16px;
-        margin-bottom: 20px;
-        color: #555;
+        margin-bottom: 24px;
+        color: var(--text-secondary);
+        line-height: 1.6;
       }
+
+      /* 错误提示框样式优化 */
       .error {
-        color: #c62828;
-        background: #fdecea;
-        border: 1px solid #f5c6cb;
-        padding: 10px 15px;
-        border-radius: 6px;
-        margin-bottom: 20px;
+        color: var(--error-main);
+        background: var(--error-light);
+        border: 1px solid var(--error-border);
+        padding: 12px 18px;
+        border-radius: var(--radius-sm);
+        margin-bottom: 24px;
+        font-weight: 500;
+        box-shadow: 0 4px 12px rgba(229, 62, 62, 0.08);
       }
+
+      /* 类型网格布局优化 */
       .genre-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-        gap: 10px;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* 优化列宽 */
+        gap: 12px;
         max-height: 360px;
         overflow-y: auto;
-        padding: 10px;
-        border: 1px solid #e0e0e0;
-        border-radius: 6px;
-        background: #fafafa;
+        padding: 20px;
+        border: 1px solid rgba(67, 97, 238, 0.1); /* 淡蓝紫边框 */
+        border-radius: var(--radius-md);
+        background: #fff;
+        margin-bottom: 8px;
+        /* 滚动条美化 */
+        scrollbar-width: thin;
+        scrollbar-color: var(--primary-light) var(--secondary);
       }
+
+      .genre-grid::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      .genre-grid::-webkit-scrollbar-track {
+        background: var(--secondary);
+        border-radius: 3px;
+      }
+
+      .genre-grid::-webkit-scrollbar-thumb {
+        background: var(--primary-light);
+        border-radius: 3px;
+      }
+
+      /* 类型选项样式 */
       .genre-item {
         display: flex;
         align-items: center;
-        gap: 8px;
-        padding: 6px 8px;
-        border-radius: 4px;
-        transition: background 0.2s ease;
+        gap: 10px;
+        padding: 12px 16px;
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        border: 1px solid transparent;
       }
+
       .genre-item:hover {
-        background: #e3f2fd;
+        background: rgba(67, 97, 238, 0.05); /* 淡蓝紫hover背景 */
+        border-color: rgba(67, 97, 238, 0.1);
+        transform: translateX(2px);
       }
+
+      /* 复选框样式美化 */
+      .genre-item input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: var(--primary); /* 复选框选中色适配主色 */
+        cursor: pointer;
+      }
+
+      .genre-item span {
+        font-size: 15px;
+        font-weight: 500;
+        color: var(--text-main);
+      }
+
       .actions {
-        margin-top: 25px;
+        margin-top: 30px;
         text-align: right;
       }
+
+      /* 按钮样式 - 蓝紫渐变 */
       button {
-        padding: 10px 28px;
+        padding: 12px 32px;
         font-size: 16px;
-        background: #1976d2;
-        color: #fff;
+        font-weight: 600;
+        background: var(--primary-gradient); /* 渐变背景 */
+        color: var(--text-white);
         border: none;
-        border-radius: 4px;
+        border-radius: var(--radius-md); /* 中等圆角 */
         cursor: pointer;
-        transition: background 0.2s ease;
+        box-shadow: 0 4px 12px var(--shadow-light);
       }
+
       button:hover {
-        background: #115293;
+        background: linear-gradient(135deg, #3a56d4 0%, #6a51d4 100%); /* 深色渐变hover */
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px var(--shadow-medium);
       }
+
+      button:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 8px var(--shadow-light);
+      }
+
+      /* 空状态样式 */
+      .genre-grid p {
+        color: var(--text-secondary);
+        text-align: center;
+        padding: 20px;
+        font-size: 15px;
+      }
+
+      /* 响应式适配 */
+      @media (max-width: 768px) {
+        .container {
+          padding: 30px 20px;
+        }
+        h1 {
+          font-size: 26px;
+        }
+        .genre-grid {
+          grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+          padding: 15px;
+        }
+        button {
+          width: 100%;
+          padding: 12px 0;
+        }
+        .actions {
+          text-align: center;
+        }
+      }
+
   body
     .container
       h1 你好 #{username}，请选择喜欢的电影类型

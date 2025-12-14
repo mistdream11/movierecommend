@@ -15,7 +15,7 @@ app.set('views', './views');
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
-const MOVIES_CSV_PATH = process.env.MOVIES_CSV_PATH || path.join(__dirname, '..', 'ml-latest-small', 'ml-latest-small', 'movies.csv');
+const MOVIES_CSV_PATH = process.env.MOVIES_CSV_PATH || '/home/hadoop/movierecommend/movies.csv';
 genreLoader.loadGenres(MOVIES_CSV_PATH);
 
 function pickRandomMovies(source, count) {
@@ -158,7 +158,14 @@ connection.connect();
  * 跳转到网站首页
  */
 app.get('/',function (req,res) {
-    res.sendFile('/home/zsh/movierecommendapp/views/index.html');
+    res.sendFile('/home/hadoop/movierecommend/views/index.html');
+})
+
+/**
+ * 跳转到电影列表页面
+ */
+app.get('/about.html',function (req,res) {
+  res.sendFile('/home/hadoop/movierecommend/views/about.html');
 })
 
 /**
@@ -166,7 +173,7 @@ app.get('/',function (req,res) {
  */
 
 app.get('/loginpage',function (req,res) {
-  res.sendFile('/home/zsh/movierecommendapp/views/loginpage.html',{title:'登录'});
+  res.sendFile('/home/hadoop/movierecommend/views/loginpage.html',{title:'登录'});
 })
 
  
@@ -203,7 +210,7 @@ app.post('/login',function (req,res) {
  */
  
 app.get('/registerpage',function (req,res) {
-  res.sendFile('/home/zsh/movierecommendapp/views/registerpage.html',{title:'注册'});
+  res.sendFile('/home/hadoop/movierecommend/views/registerpage.html',{title:'注册'});
 })
  
 app.post('/selectgenres', function (req, res) {
@@ -314,7 +321,7 @@ app.post('/register',function (req,res) {
     connection.query('insert into user set ?',user,function (err,rs) {
         if (err) throw  err;
         console.log('register success');
-       res.sendFile('/home/zsh/movierecommendapp/views/registersuccess.html',{title:'注册成功',message:name});
+       res.sendFile('/home/hadoop/movierecommend/views/registersuccess.html',{title:'注册成功',message:name});
     })
 })
 
@@ -409,8 +416,8 @@ app.get('/recommendmovieforuser',function (req,res) {
     console.log('Starting recommendation for userid: ' + userid + ', username: ' + username);
     
     // Python脚本路径和参数
-    const pythonScriptPath = '/home/zsh/movierecommendapp/movie_als/movie_als.py';
-    const dataDir = '/home/zsh/ml-latest-small';
+    const pythonScriptPath = '/home/hadoop/movierecommend/movie_als/movie_als.py';
+    const dataDir = '/home/hadoop/ml-latest-small';
     
     console.log('Running Python script: ' + pythonScriptPath);
     console.log('Data directory: ' + dataDir);
@@ -652,7 +659,7 @@ app.get('/health', function (req, res) {
         
         // 检查Python脚本是否存在
         const fs = require('fs');
-        const pythonScriptPath = '/home/zsh/movierecommendapp/movie_als/movie_als.py';
+        const pythonScriptPath = '/home/hadoop/movierecommend/movie_als/movie_als.py';
         
         if (!fs.existsSync(pythonScriptPath)) {
             return res.status(500).json({
@@ -663,7 +670,7 @@ app.get('/health', function (req, res) {
         }
         
         // 检查数据目录是否存在
-        const dataDir = '/home/zsh/ml-latest-small';
+        const dataDir = '/home/hadoop/ml-latest-small';
         if (!fs.existsSync(dataDir)) {
             return res.status(500).json({
                 status: 'error',
@@ -691,8 +698,8 @@ app.get('/recommendmovieforuser',function (req,res) {
     console.log('Starting recommendation for userid: ' + userid + ', username: ' + username);
     
     // Python脚本路径和参数
-    const pythonScriptPath = '/home/zsh/movie_recommendation_pyspark/movie_als.py';
-    const dataDir = '/home/zsh/ml-latest-small';
+    const pythonScriptPath = '/home/hadoop/movie_recommendation_pyspark/movie_als.py';
+    const dataDir = '/home/hadoop/ml-latest-small';
     
     console.log('Running Python script: ' + pythonScriptPath);
     console.log('Data directory: ' + dataDir);
@@ -902,6 +909,39 @@ app.get('/viewuserratings', function (req, res) {
             ratings: ratinglist
         });
         app.set('view engine', 'html');
+    });
+});
+
+/**
+ * 获取电影列表API（首页展示用）
+ */
+app.get('/api/movies', function(req, res) {
+    const limit = req.query.limit || 20;
+    const offset = req.query.offset || 0;
+    
+    const selectMovieSQL = "select movieid, moviename, picture from movieinfo limit " + parseInt(offset) + "," + parseInt(limit);
+    
+    connection.query(selectMovieSQL, function(err, rows, fields) {
+        if (err) {
+            res.json({ success: false, error: err.message });
+            return;
+        }
+        res.json({ success: true, data: rows });
+    });
+});
+
+/**
+ * 获取推荐电影列表API（首页轮播下展示）
+ */
+app.get('/api/featured-movies', function(req, res) {
+    const selectMovieSQL = "select movieid, moviename, picture from movieinfo order by movieid desc limit 10";
+    
+    connection.query(selectMovieSQL, function(err, rows, fields) {
+        if (err) {
+            res.json({ success: false, error: err.message });
+            return;
+        }
+        res.json({ success: true, data: rows });
     });
 });
 

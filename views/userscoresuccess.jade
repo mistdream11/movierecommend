@@ -7,10 +7,32 @@ html
     | &#x9;&#x9;
     meta(name='viewport', content='width=device-width, initial-scale=1')
     | &#x9;&#x9;
+    link(href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap', rel='stylesheet')
+    | &#x9;&#x9;
     script(type='application/x-javascript').
       addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); }
     | &#x9;&#x9;
     style(type='text/css').
+      :root {
+        --bg-gradient: linear-gradient(135deg, #e0f7fa 0%, #f3e5f5 100%);
+        --form-bg: #ffffff;
+        --text-main: #2d3748;
+        --text-secondary: #718096;
+        --primary: #4361ee;
+        --primary-light: #5874f5;
+        --primary-dark: #3a56d4;
+        --input-bg: #f8f9fa;
+        --input-border: #e2e8f0;
+        --input-border-focus: #4361ee;
+        --avatar-border: rgba(67, 97, 238, 0.15);
+        --shadow-light: rgba(67, 97, 238, 0.08);
+        --shadow-medium: rgba(67, 97, 238, 0.12);
+        --shadow-strong: rgba(67, 97, 238, 0.18);
+        --form-shadow: 
+          var(--shadow-light) 0 4px 6px,
+          var(--shadow-medium) 0 10px 15px -3px,
+          var(--shadow-light) 0 4px 6px -4px;
+      }
       /* reset */
       html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,dl,dt,dd,ol,nav ul,nav li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;}
       article, aside, details, figcaption, figure,footer, header, hgroup, menu, nav, section {display: block;}
@@ -36,222 +58,62 @@ html
       /*end reset*/
       /****-----start-body----****/
       body{
-      background:#F7DA55;
-      font-family: 'Open Sans', sans-serif;
+      background: var(--bg-gradient);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
       }
       .login-form {
-      background:#eee;
+      background: var(--form-bg);
       width: 26%;
       margin:9% auto 4% auto;
       position: relative;
-      -webkit-border-radius: 0.4em;
-      -o-border-radius: 0.4em;
-      -moz-border-radius: 0.4em;
-      box-shadow: rgba(243, 208, 39, 0.33) 1px 1px,
-      rgba(243, 208, 39, 0.33) 2px 2px,
-      rgba(243, 208, 39, 0.33) 3px 3px,
-      rgba(243, 208, 39, 0.33) 4px 4px,
-      rgba(243, 208, 39, 0.33) 5px 5px,
-      rgba(243, 208, 39, 0.33) 6px 6px,
-      rgba(243, 208, 39, 0.33) 7px 7px,
-      rgba(243, 208, 39, 0.33) 8px 8px,
-      rgba(243, 208, 39, 0.33) 9px 9px,
-      rgba(243, 208, 39, 0.33) 10px 10px,
-      rgba(243, 208, 39, 0.33) 11px 11px,
-      rgba(243, 208, 39, 0.33) 12px 12px,
-      rgba(243, 208, 39, 0.33) 13px 13px,
-      rgba(243, 208, 39, 0.33) 14px 14px,
-      rgba(243, 208, 39, 0.33) 15px 15px,
-      rgba(243, 208, 39, 0.33) 16px 16px,
-      rgba(243, 208, 39, 0.33) 17px 17px,
-      rgba(243, 208, 39, 0.33) 18px 18px,
-      rgba(243, 208, 39, 0.33) 19px 19px,
-      rgba(243, 208, 39, 0.33) 20px 20px,
-      rgba(243, 208, 39, 0.33) 21px 21px,
-      rgba(243, 208, 39, 0.33) 22px 22px,
-      rgba(243, 208, 39, 0.33) 23px 23px,
-      rgba(243, 208, 39, 0.33) 24px 24px,
-      rgba(243, 208, 39, 0.33) 25px 25px,
-      rgba(243, 208, 39, 0.33) 26px 26px,
-      rgba(243, 208, 39, 0.33) 27px 27px,
-      rgba(243, 208, 39, 0.33) 28px 28px,
-      rgba(243, 208, 39, 0.33) 29px 29px,
-      rgba(243, 208, 39, 0.33) 30px 30px,
-      rgba(243, 208, 39, 0.33) 31px 31px,
-      rgba(243, 208, 39, 0.33) 32px 32px,
-      rgba(243, 208, 39, 0.33) 33px 33px,
-      rgba(243, 208, 39, 0.33) 34px 34px,
-      rgba(243, 208, 39, 0.33) 35px 35px,
-      rgba(243, 208, 39, 0.33) 36px 36px,
-      rgba(243, 208, 39, 0.33) 37px 37px,
-      rgba(243, 208, 39, 0.33) 38px 38px,
-      rgba(243, 208, 39, 0.33) 39px 39px,
-      rgba(243, 208, 39, 0.33) 40px 40px,
-      rgba(243, 208, 39, 0.33) 41px 41px,
-      rgba(243, 208, 39, 0.33) 42px 42px,
-      rgba(243, 208, 39, 0.33) 43px 43px,
-      rgba(243, 208, 39, 0.33) 44px 44px,
-      rgba(243, 208, 39, 0.33) 45px 45px,
-      rgba(243, 208, 39, 0.33) 46px 46px,
-      rgba(243, 208, 39, 0.33) 47px 47px,
-      rgba(243, 208, 39, 0.33) 48px 48px,
-      rgba(243, 208, 39, 0.33) 49px 49px,
-      rgba(243, 208, 39, 0.33) 50px 50px,
-      rgba(243, 208, 39, 0.33) 51px 51px,
-      rgba(243, 208, 39, 0.33) 52px 52px,
-      rgba(243, 208, 39, 0.33) 53px 53px,
-      rgba(243, 208, 39, 0.33) 54px 54px,
-      rgba(243, 208, 39, 0.33) 55px 55px,
-      rgba(243, 208, 39, 0.33) 56px 56px,
-      rgba(243, 208, 39, 0.33) 57px 57px,
-      rgba(243, 208, 39, 0.33) 58px 58px,
-      rgba(243, 208, 39, 0.33) 59px 59px,
-      rgba(243, 208, 39, 0.33) 60px 60px,
-      rgba(243, 208, 39, 0.33) 61px 61px,
-      rgba(243, 208, 39, 0.33) 62px 62px,
-      rgba(243, 208, 39, 0.33) 63px 63px,
-      rgba(243, 208, 39, 0.33) 64px 64px,
-      rgba(243, 208, 39, 0.33) 65px 65px,
-      rgba(243, 208, 39, 0.33) 66px 66px,
-      rgba(243, 208, 39, 0.33) 67px 67px,
-      rgba(243, 208, 39, 0.33) 68px 68px,
-      rgba(243, 208, 39, 0.33) 69px 69px,
-      rgba(243, 208, 39, 0.33) 70px 70px,
-      rgba(243, 208, 39, 0.33) 71px 71px,
-      rgba(243, 208, 39, 0.33) 72px 72px,
-      rgba(243, 208, 39, 0.33) 73px 73px,
-      rgba(243, 208, 39, 0.33) 74px 74px,
-      rgba(243, 208, 39, 0.33) 75px 75px,
-      rgba(243, 208, 39, 0.33) 76px 76px,
-      rgba(243, 208, 39, 0.33) 77px 77px,
-      rgba(243, 208, 39, 0.33) 78px 78px,
-      rgba(243, 208, 39, 0.33) 79px 79px,
-      rgba(243, 208, 39, 0.33) 80px 80px,
-      rgba(243, 208, 39, 0.33) 81px 81px,
-      rgba(243, 208, 39, 0.33) 82px 82px,
-      rgba(243, 208, 39, 0.33) 83px 83px,
-      rgba(243, 208, 39, 0.33) 84px 84px,
-      rgba(243, 208, 39, 0.33) 85px 85px,
-      rgba(243, 208, 39, 0.33) 86px 86px,
-      rgba(243, 208, 39, 0.33) 87px 87px,
-      rgba(243, 208, 39, 0.33) 88px 88px,
-      rgba(243, 208, 39, 0.33) 89px 89px,
-      rgba(243, 208, 39, 0.33)90px 90px,
-      rgba(243, 208, 39, 0.33)91px 91px,
-      rgba(243, 208, 39, 0.33)92px 92px,
-      rgba(243, 208, 39, 0.33)93px 93px,
-      rgba(243, 208, 39, 0.33)94px 94px,
-      rgba(243, 208, 39, 0.33) 95px 95px,
-      rgba(243, 208, 39, 0.33) 96px 96px,
-      rgba(243, 208, 39, 0.33) 97px 97px,
-      rgba(243, 208, 39, 0.33) 98px 98px,
-      rgba(243, 208, 39, 0.33) 99px 99px,
-      rgba(243, 208, 39, 0.33) 100px 100px,
-      rgba(243, 208, 39, 0.33) 101px 101px,
-      rgba(243, 208, 39, 0.33) 102px 102px,
-      rgba(243, 208, 39, 0.33) 103px 103px,
-      rgba(243, 208, 39, 0.33) 104px 104px,
-      rgba(243, 208, 39, 0.33) 105px 105px,
-      rgba(243, 208, 39, 0.33) 106px 106px,
-      rgba(243, 208, 39, 0.33) 107px 107px,
-      rgba(243, 208, 39, 0.33) 108px 108px,
-      rgba(243, 208, 39, 0.33) 109px 109px,
-      rgba(243, 208, 39, 0.33) 110px 110px,
-      rgba(243, 208, 39, 0.33) 111px 111px,
-      rgba(243, 208, 39, 0.33) 112px 112px,
-      rgba(243, 208, 39, 0.33) 113px 113px,
-      rgba(243, 208, 39, 0.33) 114px 114px,
-      rgba(243, 208, 39, 0.33) 115px 115px,
-      rgba(243, 208, 39, 0.33) 116px 116px,
-      rgba(243, 208, 39, 0.33) 117px 117px,
-      rgba(243, 208, 39, 0.33) 118px 118px,
-      rgba(243, 208, 39, 0.33) 119px 119px,
-      rgba(243, 208, 39, 0.33) 120px 120px,
-      rgba(243, 208, 39, 0.33) 121px 121px,
-      rgba(243, 208, 39, 0.33) 122px 122px,
-      rgba(243, 208, 39, 0.33) 123px 123px,
-      rgba(243, 208, 39, 0.33) 124px 124px,
-      rgba(243, 208, 39, 0.33) 125px 125px,
-      rgba(243, 208, 39, 0.33) 126px 126px,
-      rgba(243, 208, 39, 0.33) 127px 127px,
-      rgba(243, 208, 39, 0.33) 128px 128px,
-      rgba(243, 208, 39, 0.33) 129px 129px,
-      rgba(243, 208, 39, 0.33) 130px 130px,
-      rgba(243, 208, 39, 0.33) 131px 131px,
-      rgba(243, 208, 39, 0.33) 132px 132px,
-      rgba(243, 208, 39, 0.33)133px 133px,
-      rgba(243, 208, 39, 0.33)134px 134px,
-      rgba(243, 208, 39, 0.33)135px 135px,
-      rgba(243, 208, 39, 0.33) 136px 136px,
-      rgba(243, 208, 39, 0.33) 137px 137px,
-      rgba(243, 208, 39, 0.33) 138px 138px,
-      rgba(243, 208, 39, 0.33) 139px 139px,
-      rgba(243, 208, 39, 0.33) 140px 140px,
-      rgba(243, 208, 39, 0.33) 141px 141px,
-      rgba(243, 208, 39, 0.33) 142px 142px,
-      rgba(243, 208, 39, 0.33) 143px 143px,
-      rgba(243, 208, 39, 0.33) 144px 144px,
-      rgba(243, 208, 39, 0.33) 145px 145px,
-      rgba(243, 208, 39, 0.33) 146px 146px,
-      rgba(243, 208, 39, 0.33) 147px 147px,
-      rgba(243, 208, 39, 0.33) 148px 148px,
-      rgba(243, 208, 39, 0.33) 149px 149px,
-      rgba(243, 208, 39, 0.33) 150px 150px,
-      rgba(243, 208, 39, 0.33) 151px 151px,
-      rgba(243, 208, 39, 0.33) 152px 152px,
-      rgba(243, 208, 39, 0.33) 153px 153px,
-      rgba(243, 208, 39, 0.33) 154px 154px,
-      rgba(243, 208, 39, 0.33) 155px 155px,
-      rgba(243, 208, 39, 0.33) 156px 156px,
-      rgba(243, 208, 39, 0.33) 157px 157px,
-      rgba(243, 208, 39, 0.33) 158px 158px,
-      rgba(243, 208, 39, 0.33) 159px 159px,
-      rgba(243, 208, 39, 0.33) 160px 160px,
-      rgba(243, 208, 39, 0.33) 161px 161px,
-      rgba(243, 208, 39, 0.33) 162px 162px,
-      rgba(243, 208, 39, 0.33) 163px 163px,
-      rgba(243, 208, 39, 0.33) 164px 164px,
-      rgba(243, 208, 39, 0.33) 165px 165px,
-      rgba(243, 208, 39, 0.33) 166px 166px,
-      rgba(243, 208, 39, 0.33) 167px 167px,
-      rgba(243, 208, 39, 0.33) 168px 168px,
-      rgba(243, 208, 39, 0.33) 169px 169px,
-      rgba(243, 208, 39, 0.33) 170px 170px,
-      rgba(243, 208, 39, 0.33) 171px 171px,
-      rgba(243, 208, 39, 0.33) 172px 172px,
-      rgba(243, 208, 39, 0.33) 173px 173px,
-      rgba(243, 208, 39, 0.33) 174px 174px,
-      rgba(243, 208, 39, 0.33) 175px 175px,
-      rgba(243, 208, 39, 0.33) 176px 176px,
-      rgba(243, 208, 39, 0.33) 177px 177px,
-      rgba(243, 208, 39, 0.33) 178px 178px,
-      rgba(243, 208, 39, 0.33) 179px 179px,
-      rgba(243, 208, 39, 0.33) 180px 180px,
-      rgba(243, 208, 39, 0.33) 181px 181px,
-      rgba(243, 208, 39, 0.33) 182px 182px
+      border-radius: 16px;
+      box-shadow: var(--form-shadow);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), var(--form-shadow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      .login-form:hover {
+        transform: translateY(-2px);
+        box-shadow: 
+          var(--shadow-light) 0 6px 8px,
+          var(--shadow-medium) 0 12px 20px -3px,
+          var(--shadow-light) 0 6px 8px -4px;
       }
       .head {
       position: absolute;
       top:-15%;
-      left: 35%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 100px;
+      box-shadow: 0 4px 12px var(--shadow-medium);
+      border-radius: 50%;
       }
       .head img {
       border-radius:50%;
-      -webkit-border-radius:50%;
-      -o-border-radius:50%;
-      -moz-border-radius:50%;
-      border:6px solid rgba(221, 218, 215, 0.23);
+      border:6px solid var(--avatar-border);
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+      }
+      .head:hover img {
+        transform: scale(1.05);
       }
       .main{
       position:relative;
       }
       .main h1{
       font-size:25px;
-      color:#676767;
-      font-family: 'Open Sans', sans-serif;
-      font-weight:400;
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      font-weight:700;
       padding-top: 0;
       text-align: center;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, var(--primary), #7b61ee);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
       }
       .main form {
       width: 80%;
@@ -260,67 +122,97 @@ html
       }
       .main p {
       text-align: center;
+      margin-top: 12px;
+      color: var(--text-secondary);
+      font-size: 14px;
       }
       .main form p a {
-      color: #888;
-      font-family: 'Open Sans', sans-serif;
+      color: var(--primary);
+      font-family: 'Inter', sans-serif;
+      font-weight:600;
+      position: relative;
+      }
+      .main form p a::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--primary);
+        transition: width 0.2s ease;
       }
       form p a:hover {
-      color:#21A957;
+      color: var(--primary-dark);
+      }
+      form p a:hover::after {
+        width: 100%;
       }
       input[type="text"], input[type="password"]{
       text-align:left;
       position: relative;
       width:92%;
-      padding:3%;
-      background:#D3D3D3;
+      padding:14px 16px;
+      background: var(--input-bg);
+      background: linear-gradient(180deg, var(--input-bg), #fafbfc);
       margin-bottom: 6%;
-      font-family: 'Open Sans', sans-serif;
-      color: #676767;
+      font-family: 'Inter', sans-serif;
+      color: var(--text-main);
       font-weight:600;
       font-size: 16px;
       outline: none;
-      border: none;
-      border-radius: 5px;
-      border:1px solid #DED6D6;
+      border: 1.5px solid var(--input-border);
+      border-radius: 10px;
+      transition: all 0.25s ease;
       -webkit-appearance:none;
       }
       input[type="text"]:hover, input[type="password"]:hover{
-      border:1px solid #949494;
+      border:1px solid #cbd5e1;
+      background: #ffffff;
       transition:0.5s;
       -webkit-transition:0.5s;
       -moz-transition:0.5s;
       -o-transition:0.5s;
       -ms-transition:	0.5s;
       }
+      input[type="text"]:focus, input[type="password"]:focus {
+        border-color: var(--input-border-focus);
+        background: #ffffff;
+        box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        transform: translateY(-1px);
+      }
+      input::placeholder {
+        color: var(--text-secondary);
+        font-size: 14px;
+        opacity: 0.8;
+      }
       input[type="submit"]{
       width: 99%;
-      padding: 3%;
-      margin-bottom: 8%;
-      background: #21A957;
-      font-family: 'Open Sans', sans-serif;
-      color: #ECECEC;
-      box-shadow: inset 0px 0px 10px #666464;
-      -webkit-text-shadow: 0px 0px 3px #000;
-      -moz-text-shadow: 0px 0px 3px #000;
-      -o-text-shadow: 0px 0px 3px #000;
-      -ms-text-shadow: 0px 0px 3px #000;
-      font-size: 20px;
+      padding:14px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      font-family: 'Inter', sans-serif;
+      color: #ffffff;
+      font-size: 16px;
+      font-weight:600;
       outline: none;
       border: none;
       cursor: pointer;
-      font-weight:500;
-      border-radius: 5px;
-      transition: 0.5s;
+      border-radius: 10px;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 12px rgba(67, 97, 238, 0.2);
+      user-select: none;
       -webkit-appearance:none;
-      -webkit-transition: 0.5s;
-      -moz-transition: 0.5s;
-      -o-transition: 0.5s;
-      -ms-transition: 0.5s;
       }
       input[type="submit"]:hover{
-      background:#128A42;
+      background: linear-gradient(135deg, var(--primary-light), var(--primary));
+      box-shadow: 0 6px 16px rgba(67, 97, 238, 0.25);
+      transform: translateY(-1px);
       color:#fff;
+      }
+      input[type="submit"]:active {
+        background: linear-gradient(135deg, var(--primary-dark), #324ebe);
+        transform: translateY(0);
+        box-shadow: 0 2px 8px rgba(67, 97, 238, 0.2);
       }
       /****************/
       .copy-right {
@@ -329,15 +221,15 @@ html
       left: 43.7%;
       }
       .copy-right p {
-      color: #fff;
+      color: var(--text-secondary);
       font-size: 1em;
-      font-family: 'Open Sans', sans-serif;
+      font-family: 'Inter', sans-serif;
       font-weight: 600;
       }
       .copy-right p a {
-      font-family: 'Open Sans', sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 1em;
-      color:#21A957;
+      color:var(--primary);
       -webkit-transition: all 0.3s ease-out;
       -moz-transition: all 0.3s ease-out;
       -ms-transition: all 0.3s ease-out;
@@ -345,7 +237,7 @@ html
       transition: all 0.3s ease-out;
       }
       .copy-right p a:hover{
-      color:#fff;
+      color:var(--primary-dark);
       }
       /*-----start-responsive-design------*/
       @media (max-width:1440px){
@@ -370,156 +262,6 @@ html
       .login-form  {
       margin:8% auto 0;
       width:34%;
-      box-shadow: rgba(243, 208, 39, 0.33) 1px 1px,
-      rgba(243, 208, 39, 0.33) 2px 2px,
-      rgba(243, 208, 39, 0.33) 3px 3px,
-      rgba(243, 208, 39, 0.33) 4px 4px,
-      rgba(243, 208, 39, 0.33) 5px 5px,
-      rgba(243, 208, 39, 0.33) 6px 6px,
-      rgba(243, 208, 39, 0.33) 7px 7px,
-      rgba(243, 208, 39, 0.33) 8px 8px,
-      rgba(243, 208, 39, 0.33) 9px 9px,
-      rgba(243, 208, 39, 0.33) 10px 10px,
-      rgba(243, 208, 39, 0.33) 11px 11px,
-      rgba(243, 208, 39, 0.33) 12px 12px,
-      rgba(243, 208, 39, 0.33) 13px 13px,
-      rgba(243, 208, 39, 0.33) 14px 14px,
-      rgba(243, 208, 39, 0.33) 15px 15px,
-      rgba(243, 208, 39, 0.33) 16px 16px,
-      rgba(243, 208, 39, 0.33) 17px 17px,
-      rgba(243, 208, 39, 0.33) 18px 18px,
-      rgba(243, 208, 39, 0.33) 19px 19px,
-      rgba(243, 208, 39, 0.33) 20px 20px,
-      rgba(243, 208, 39, 0.33) 21px 21px,
-      rgba(243, 208, 39, 0.33) 22px 22px,
-      rgba(243, 208, 39, 0.33) 23px 23px,
-      rgba(243, 208, 39, 0.33) 24px 24px,
-      rgba(243, 208, 39, 0.33) 25px 25px,
-      rgba(243, 208, 39, 0.33) 26px 26px,
-      rgba(243, 208, 39, 0.33) 27px 27px,
-      rgba(243, 208, 39, 0.33) 28px 28px,
-      rgba(243, 208, 39, 0.33) 29px 29px,
-      rgba(243, 208, 39, 0.33) 30px 30px,
-      rgba(243, 208, 39, 0.33) 31px 31px,
-      rgba(243, 208, 39, 0.33) 32px 32px,
-      rgba(243, 208, 39, 0.33) 33px 33px,
-      rgba(243, 208, 39, 0.33) 34px 34px,
-      rgba(243, 208, 39, 0.33) 35px 35px,
-      rgba(243, 208, 39, 0.33) 36px 36px,
-      rgba(243, 208, 39, 0.33) 37px 37px,
-      rgba(243, 208, 39, 0.33) 38px 38px,
-      rgba(243, 208, 39, 0.33) 39px 39px,
-      rgba(243, 208, 39, 0.33) 40px 40px,
-      rgba(243, 208, 39, 0.33) 41px 41px,
-      rgba(243, 208, 39, 0.33) 42px 42px,
-      rgba(243, 208, 39, 0.33) 43px 43px,
-      rgba(243, 208, 39, 0.33) 44px 44px,
-      rgba(243, 208, 39, 0.33) 45px 45px,
-      rgba(243, 208, 39, 0.33) 46px 46px,
-      rgba(243, 208, 39, 0.33) 47px 47px,
-      rgba(243, 208, 39, 0.33) 48px 48px,
-      rgba(243, 208, 39, 0.33) 49px 49px,
-      rgba(243, 208, 39, 0.33) 50px 50px,
-      rgba(243, 208, 39, 0.33) 51px 51px,
-      rgba(243, 208, 39, 0.33) 52px 52px,
-      rgba(243, 208, 39, 0.33) 53px 53px,
-      rgba(243, 208, 39, 0.33) 54px 54px,
-      rgba(243, 208, 39, 0.33) 55px 55px,
-      rgba(243, 208, 39, 0.33) 56px 56px,
-      rgba(243, 208, 39, 0.33) 57px 57px,
-      rgba(243, 208, 39, 0.33) 58px 58px,
-      rgba(243, 208, 39, 0.33) 59px 59px,
-      rgba(243, 208, 39, 0.33) 60px 60px,
-      rgba(243, 208, 39, 0.33) 61px 61px,
-      rgba(243, 208, 39, 0.33) 62px 62px,
-      rgba(243, 208, 39, 0.33) 63px 63px,
-      rgba(243, 208, 39, 0.33) 64px 64px,
-      rgba(243, 208, 39, 0.33) 65px 65px,
-      rgba(243, 208, 39, 0.33) 66px 66px,
-      rgba(243, 208, 39, 0.33) 67px 67px,
-      rgba(243, 208, 39, 0.33) 68px 68px,
-      rgba(243, 208, 39, 0.33) 69px 69px,
-      rgba(243, 208, 39, 0.33) 70px 70px,
-      rgba(243, 208, 39, 0.33) 71px 71px,
-      rgba(243, 208, 39, 0.33) 72px 72px,
-      rgba(243, 208, 39, 0.33) 73px 73px,
-      rgba(243, 208, 39, 0.33) 74px 74px,
-      rgba(243, 208, 39, 0.33) 75px 75px,
-      rgba(243, 208, 39, 0.33) 76px 76px,
-      rgba(243, 208, 39, 0.33) 77px 77px,
-      rgba(243, 208, 39, 0.33) 78px 78px,
-      rgba(243, 208, 39, 0.33) 79px 79px,
-      rgba(243, 208, 39, 0.33) 80px 80px,
-      rgba(243, 208, 39, 0.33) 81px 81px,
-      rgba(243, 208, 39, 0.33) 82px 82px,
-      rgba(243, 208, 39, 0.33) 83px 83px,
-      rgba(243, 208, 39, 0.33) 84px 84px,
-      rgba(243, 208, 39, 0.33) 85px 85px,
-      rgba(243, 208, 39, 0.33) 86px 86px,
-      rgba(243, 208, 39, 0.33) 87px 87px,
-      rgba(243, 208, 39, 0.33) 88px 88px,
-      rgba(243, 208, 39, 0.33) 89px 89px,
-      rgba(243, 208, 39, 0.33)90px 90px,
-      rgba(243, 208, 39, 0.33)91px 91px,
-      rgba(243, 208, 39, 0.33)92px 92px,
-      rgba(243, 208, 39, 0.33)93px 93px,
-      rgba(243, 208, 39, 0.33)94px 94px,
-      rgba(243, 208, 39, 0.33) 95px 95px,
-      rgba(243, 208, 39, 0.33) 96px 96px,
-      rgba(243, 208, 39, 0.33) 97px 97px,
-      rgba(243, 208, 39, 0.33) 98px 98px,
-      rgba(243, 208, 39, 0.33) 99px 99px,
-      rgba(243, 208, 39, 0.33) 100px 100px,
-      rgba(243, 208, 39, 0.33) 101px 101px,
-      rgba(243, 208, 39, 0.33) 102px 102px,
-      rgba(243, 208, 39, 0.33) 103px 103px,
-      rgba(243, 208, 39, 0.33) 104px 104px,
-      rgba(243, 208, 39, 0.33) 105px 105px,
-      rgba(243, 208, 39, 0.33) 106px 106px,
-      rgba(243, 208, 39, 0.33) 107px 107px,
-      rgba(243, 208, 39, 0.33) 108px 108px,
-      rgba(243, 208, 39, 0.33) 109px 109px,
-      rgba(243, 208, 39, 0.33) 110px 110px,
-      rgba(243, 208, 39, 0.33) 111px 111px,
-      rgba(243, 208, 39, 0.33) 112px 112px,
-      rgba(243, 208, 39, 0.33) 113px 113px,
-      rgba(243, 208, 39, 0.33) 114px 114px,
-      rgba(243, 208, 39, 0.33) 115px 115px,
-      rgba(243, 208, 39, 0.33) 116px 116px,
-      rgba(243, 208, 39, 0.33) 117px 117px,
-      rgba(243, 208, 39, 0.33) 118px 118px,
-      rgba(243, 208, 39, 0.33) 119px 119px,
-      rgba(243, 208, 39, 0.33) 120px 120px,
-      rgba(243, 208, 39, 0.33) 121px 121px,
-      rgba(243, 208, 39, 0.33) 122px 122px,
-      rgba(243, 208, 39, 0.33) 123px 123px,
-      rgba(243, 208, 39, 0.33) 124px 124px,
-      rgba(243, 208, 39, 0.33) 125px 125px,
-      rgba(243, 208, 39, 0.33) 126px 126px,
-      rgba(243, 208, 39, 0.33) 127px 127px,
-      rgba(243, 208, 39, 0.33) 128px 128px,
-      rgba(243, 208, 39, 0.33) 129px 129px,
-      rgba(243, 208, 39, 0.33) 130px 130px,
-      rgba(243, 208, 39, 0.33) 131px 131px,
-      rgba(243, 208, 39, 0.33) 132px 132px,
-      rgba(243, 208, 39, 0.33)133px 133px,
-      rgba(243, 208, 39, 0.33)134px 134px,
-      rgba(243, 208, 39, 0.33)135px 135px,
-      rgba(243, 208, 39, 0.33) 136px 136px,
-      rgba(243, 208, 39, 0.33) 137px 137px,
-      rgba(243, 208, 39, 0.33) 138px 138px,
-      rgba(243, 208, 39, 0.33) 139px 139px,
-      rgba(243, 208, 39, 0.33) 140px 140px,
-      rgba(243, 208, 39, 0.33) 141px 141px,
-      rgba(243, 208, 39, 0.33) 142px 142px,
-      rgba(243, 208, 39, 0.33) 143px 143px,
-      rgba(243, 208, 39, 0.33) 144px 144px,
-      rgba(243, 208, 39, 0.33) 145px 145px,
-      rgba(243, 208, 39, 0.33) 146px 146px,
-      rgba(243, 208, 39, 0.33) 147px 147px,
-      rgba(243, 208, 39, 0.33) 148px 148px,
-      rgba(243, 208, 39, 0.33) 149px 149px,
-      rgba(243, 208, 39, 0.33) 150px 150px
       }
       .copy-right {
       left: 41%;
@@ -530,156 +272,6 @@ html
       .login-form  {
       margin:12% auto 0;
       width:45%;
-      box-shadow: rgba(243, 208, 39, 0.33) 1px 1px,
-      rgba(243, 208, 39, 0.33) 2px 2px,
-      rgba(243, 208, 39, 0.33) 3px 3px,
-      rgba(243, 208, 39, 0.33) 4px 4px,
-      rgba(243, 208, 39, 0.33) 5px 5px,
-      rgba(243, 208, 39, 0.33) 6px 6px,
-      rgba(243, 208, 39, 0.33) 7px 7px,
-      rgba(243, 208, 39, 0.33) 8px 8px,
-      rgba(243, 208, 39, 0.33) 9px 9px,
-      rgba(243, 208, 39, 0.33) 10px 10px,
-      rgba(243, 208, 39, 0.33) 11px 11px,
-      rgba(243, 208, 39, 0.33) 12px 12px,
-      rgba(243, 208, 39, 0.33) 13px 13px,
-      rgba(243, 208, 39, 0.33) 14px 14px,
-      rgba(243, 208, 39, 0.33) 15px 15px,
-      rgba(243, 208, 39, 0.33) 16px 16px,
-      rgba(243, 208, 39, 0.33) 17px 17px,
-      rgba(243, 208, 39, 0.33) 18px 18px,
-      rgba(243, 208, 39, 0.33) 19px 19px,
-      rgba(243, 208, 39, 0.33) 20px 20px,
-      rgba(243, 208, 39, 0.33) 21px 21px,
-      rgba(243, 208, 39, 0.33) 22px 22px,
-      rgba(243, 208, 39, 0.33) 23px 23px,
-      rgba(243, 208, 39, 0.33) 24px 24px,
-      rgba(243, 208, 39, 0.33) 25px 25px,
-      rgba(243, 208, 39, 0.33) 26px 26px,
-      rgba(243, 208, 39, 0.33) 27px 27px,
-      rgba(243, 208, 39, 0.33) 28px 28px,
-      rgba(243, 208, 39, 0.33) 29px 29px,
-      rgba(243, 208, 39, 0.33) 30px 30px,
-      rgba(243, 208, 39, 0.33) 31px 31px,
-      rgba(243, 208, 39, 0.33) 32px 32px,
-      rgba(243, 208, 39, 0.33) 33px 33px,
-      rgba(243, 208, 39, 0.33) 34px 34px,
-      rgba(243, 208, 39, 0.33) 35px 35px,
-      rgba(243, 208, 39, 0.33) 36px 36px,
-      rgba(243, 208, 39, 0.33) 37px 37px,
-      rgba(243, 208, 39, 0.33) 38px 38px,
-      rgba(243, 208, 39, 0.33) 39px 39px,
-      rgba(243, 208, 39, 0.33) 40px 40px,
-      rgba(243, 208, 39, 0.33) 41px 41px,
-      rgba(243, 208, 39, 0.33) 42px 42px,
-      rgba(243, 208, 39, 0.33) 43px 43px,
-      rgba(243, 208, 39, 0.33) 44px 44px,
-      rgba(243, 208, 39, 0.33) 45px 45px,
-      rgba(243, 208, 39, 0.33) 46px 46px,
-      rgba(243, 208, 39, 0.33) 47px 47px,
-      rgba(243, 208, 39, 0.33) 48px 48px,
-      rgba(243, 208, 39, 0.33) 49px 49px,
-      rgba(243, 208, 39, 0.33) 50px 50px,
-      rgba(243, 208, 39, 0.33) 51px 51px,
-      rgba(243, 208, 39, 0.33) 52px 52px,
-      rgba(243, 208, 39, 0.33) 53px 53px,
-      rgba(243, 208, 39, 0.33) 54px 54px,
-      rgba(243, 208, 39, 0.33) 55px 55px,
-      rgba(243, 208, 39, 0.33) 56px 56px,
-      rgba(243, 208, 39, 0.33) 57px 57px,
-      rgba(243, 208, 39, 0.33) 58px 58px,
-      rgba(243, 208, 39, 0.33) 59px 59px,
-      rgba(243, 208, 39, 0.33) 60px 60px,
-      rgba(243, 208, 39, 0.33) 61px 61px,
-      rgba(243, 208, 39, 0.33) 62px 62px,
-      rgba(243, 208, 39, 0.33) 63px 63px,
-      rgba(243, 208, 39, 0.33) 64px 64px,
-      rgba(243, 208, 39, 0.33) 65px 65px,
-      rgba(243, 208, 39, 0.33) 66px 66px,
-      rgba(243, 208, 39, 0.33) 67px 67px,
-      rgba(243, 208, 39, 0.33) 68px 68px,
-      rgba(243, 208, 39, 0.33) 69px 69px,
-      rgba(243, 208, 39, 0.33) 70px 70px,
-      rgba(243, 208, 39, 0.33) 71px 71px,
-      rgba(243, 208, 39, 0.33) 72px 72px,
-      rgba(243, 208, 39, 0.33) 73px 73px,
-      rgba(243, 208, 39, 0.33) 74px 74px,
-      rgba(243, 208, 39, 0.33) 75px 75px,
-      rgba(243, 208, 39, 0.33) 76px 76px,
-      rgba(243, 208, 39, 0.33) 77px 77px,
-      rgba(243, 208, 39, 0.33) 78px 78px,
-      rgba(243, 208, 39, 0.33) 79px 79px,
-      rgba(243, 208, 39, 0.33) 80px 80px,
-      rgba(243, 208, 39, 0.33) 81px 81px,
-      rgba(243, 208, 39, 0.33) 82px 82px,
-      rgba(243, 208, 39, 0.33) 83px 83px,
-      rgba(243, 208, 39, 0.33) 84px 84px,
-      rgba(243, 208, 39, 0.33) 85px 85px,
-      rgba(243, 208, 39, 0.33) 86px 86px,
-      rgba(243, 208, 39, 0.33) 87px 87px,
-      rgba(243, 208, 39, 0.33) 88px 88px,
-      rgba(243, 208, 39, 0.33) 89px 89px,
-      rgba(243, 208, 39, 0.33)90px 90px,
-      rgba(243, 208, 39, 0.33)91px 91px,
-      rgba(243, 208, 39, 0.33)92px 92px,
-      rgba(243, 208, 39, 0.33)93px 93px,
-      rgba(243, 208, 39, 0.33)94px 94px,
-      rgba(243, 208, 39, 0.33) 95px 95px,
-      rgba(243, 208, 39, 0.33) 96px 96px,
-      rgba(243, 208, 39, 0.33) 97px 97px,
-      rgba(243, 208, 39, 0.33) 98px 98px,
-      rgba(243, 208, 39, 0.33) 99px 99px,
-      rgba(243, 208, 39, 0.33) 100px 100px,
-      rgba(243, 208, 39, 0.33) 101px 101px,
-      rgba(243, 208, 39, 0.33) 102px 102px,
-      rgba(243, 208, 39, 0.33) 103px 103px,
-      rgba(243, 208, 39, 0.33) 104px 104px,
-      rgba(243, 208, 39, 0.33) 105px 105px,
-      rgba(243, 208, 39, 0.33) 106px 106px,
-      rgba(243, 208, 39, 0.33) 107px 107px,
-      rgba(243, 208, 39, 0.33) 108px 108px,
-      rgba(243, 208, 39, 0.33) 109px 109px,
-      rgba(243, 208, 39, 0.33) 110px 110px,
-      rgba(243, 208, 39, 0.33) 111px 111px,
-      rgba(243, 208, 39, 0.33) 112px 112px,
-      rgba(243, 208, 39, 0.33) 113px 113px,
-      rgba(243, 208, 39, 0.33) 114px 114px,
-      rgba(243, 208, 39, 0.33) 115px 115px,
-      rgba(243, 208, 39, 0.33) 116px 116px,
-      rgba(243, 208, 39, 0.33) 117px 117px,
-      rgba(243, 208, 39, 0.33) 118px 118px,
-      rgba(243, 208, 39, 0.33) 119px 119px,
-      rgba(243, 208, 39, 0.33) 120px 120px,
-      rgba(243, 208, 39, 0.33) 121px 121px,
-      rgba(243, 208, 39, 0.33) 122px 122px,
-      rgba(243, 208, 39, 0.33) 123px 123px,
-      rgba(243, 208, 39, 0.33) 124px 124px,
-      rgba(243, 208, 39, 0.33) 125px 125px,
-      rgba(243, 208, 39, 0.33) 126px 126px,
-      rgba(243, 208, 39, 0.33) 127px 127px,
-      rgba(243, 208, 39, 0.33) 128px 128px,
-      rgba(243, 208, 39, 0.33) 129px 129px,
-      rgba(243, 208, 39, 0.33) 130px 130px,
-      rgba(243, 208, 39, 0.33) 131px 131px,
-      rgba(243, 208, 39, 0.33) 132px 132px,
-      rgba(243, 208, 39, 0.33)133px 133px,
-      rgba(243, 208, 39, 0.33)134px 134px,
-      rgba(243, 208, 39, 0.33)135px 135px,
-      rgba(243, 208, 39, 0.33) 136px 136px,
-      rgba(243, 208, 39, 0.33) 137px 137px,
-      rgba(243, 208, 39, 0.33) 138px 138px,
-      rgba(243, 208, 39, 0.33) 139px 139px,
-      rgba(243, 208, 39, 0.33) 140px 140px,
-      rgba(243, 208, 39, 0.33) 141px 141px,
-      rgba(243, 208, 39, 0.33) 142px 142px,
-      rgba(243, 208, 39, 0.33) 143px 143px,
-      rgba(243, 208, 39, 0.33) 144px 144px,
-      rgba(243, 208, 39, 0.33) 145px 145px,
-      rgba(243, 208, 39, 0.33) 146px 146px,
-      rgba(243, 208, 39, 0.33) 147px 147px,
-      rgba(243, 208, 39, 0.33) 148px 148px,
-      rgba(243, 208, 39, 0.33) 149px 149px,
-      rgba(243, 208, 39, 0.33) 150px 150px
       }
       .copy-right {
       left: 41%;
@@ -710,116 +302,6 @@ html
       .login-form {
       margin: 32% auto 0;
       width: 74%;
-      box-shadow: rgba(243, 208, 39, 0.33) 1px 1px,
-      rgba(243, 208, 39, 0.33) 2px 2px,
-      rgba(243, 208, 39, 0.33) 3px 3px,
-      rgba(243, 208, 39, 0.33) 4px 4px,
-      rgba(243, 208, 39, 0.33) 5px 5px,
-      rgba(243, 208, 39, 0.33) 6px 6px,
-      rgba(243, 208, 39, 0.33) 7px 7px,
-      rgba(243, 208, 39, 0.33) 8px 8px,
-      rgba(243, 208, 39, 0.33) 9px 9px,
-      rgba(243, 208, 39, 0.33) 10px 10px,
-      rgba(243, 208, 39, 0.33) 11px 11px,
-      rgba(243, 208, 39, 0.33) 12px 12px,
-      rgba(243, 208, 39, 0.33) 13px 13px,
-      rgba(243, 208, 39, 0.33) 14px 14px,
-      rgba(243, 208, 39, 0.33) 15px 15px,
-      rgba(243, 208, 39, 0.33) 16px 16px,
-      rgba(243, 208, 39, 0.33) 17px 17px,
-      rgba(243, 208, 39, 0.33) 18px 18px,
-      rgba(243, 208, 39, 0.33) 19px 19px,
-      rgba(243, 208, 39, 0.33) 20px 20px,
-      rgba(243, 208, 39, 0.33) 21px 21px,
-      rgba(243, 208, 39, 0.33) 22px 22px,
-      rgba(243, 208, 39, 0.33) 23px 23px,
-      rgba(243, 208, 39, 0.33) 24px 24px,
-      rgba(243, 208, 39, 0.33) 25px 25px,
-      rgba(243, 208, 39, 0.33) 26px 26px,
-      rgba(243, 208, 39, 0.33) 27px 27px,
-      rgba(243, 208, 39, 0.33) 28px 28px,
-      rgba(243, 208, 39, 0.33) 29px 29px,
-      rgba(243, 208, 39, 0.33) 30px 30px,
-      rgba(243, 208, 39, 0.33) 31px 31px,
-      rgba(243, 208, 39, 0.33) 32px 32px,
-      rgba(243, 208, 39, 0.33) 33px 33px,
-      rgba(243, 208, 39, 0.33) 34px 34px,
-      rgba(243, 208, 39, 0.33) 35px 35px,
-      rgba(243, 208, 39, 0.33) 36px 36px,
-      rgba(243, 208, 39, 0.33) 37px 37px,
-      rgba(243, 208, 39, 0.33) 38px 38px,
-      rgba(243, 208, 39, 0.33) 39px 39px,
-      rgba(243, 208, 39, 0.33) 40px 40px,
-      rgba(243, 208, 39, 0.33) 41px 41px,
-      rgba(243, 208, 39, 0.33) 42px 42px,
-      rgba(243, 208, 39, 0.33) 43px 43px,
-      rgba(243, 208, 39, 0.33) 44px 44px,
-      rgba(243, 208, 39, 0.33) 45px 45px,
-      rgba(243, 208, 39, 0.33) 46px 46px,
-      rgba(243, 208, 39, 0.33) 47px 47px,
-      rgba(243, 208, 39, 0.33) 48px 48px,
-      rgba(243, 208, 39, 0.33) 49px 49px,
-      rgba(243, 208, 39, 0.33) 50px 50px,
-      rgba(243, 208, 39, 0.33) 51px 51px,
-      rgba(243, 208, 39, 0.33) 52px 52px,
-      rgba(243, 208, 39, 0.33) 53px 53px,
-      rgba(243, 208, 39, 0.33) 54px 54px,
-      rgba(243, 208, 39, 0.33) 55px 55px,
-      rgba(243, 208, 39, 0.33) 56px 56px,
-      rgba(243, 208, 39, 0.33) 57px 57px,
-      rgba(243, 208, 39, 0.33) 58px 58px,
-      rgba(243, 208, 39, 0.33) 59px 59px,
-      rgba(243, 208, 39, 0.33) 60px 60px,
-      rgba(243, 208, 39, 0.33) 61px 61px,
-      rgba(243, 208, 39, 0.33) 62px 62px,
-      rgba(243, 208, 39, 0.33) 63px 63px,
-      rgba(243, 208, 39, 0.33) 64px 64px,
-      rgba(243, 208, 39, 0.33) 65px 65px,
-      rgba(243, 208, 39, 0.33) 66px 66px,
-      rgba(243, 208, 39, 0.33) 67px 67px,
-      rgba(243, 208, 39, 0.33) 68px 68px,
-      rgba(243, 208, 39, 0.33) 69px 69px,
-      rgba(243, 208, 39, 0.33) 70px 70px,
-      rgba(243, 208, 39, 0.33) 71px 71px,
-      rgba(243, 208, 39, 0.33) 72px 72px,
-      rgba(243, 208, 39, 0.33) 73px 73px,
-      rgba(243, 208, 39, 0.33) 74px 74px,
-      rgba(243, 208, 39, 0.33) 75px 75px,
-      rgba(243, 208, 39, 0.33) 76px 76px,
-      rgba(243, 208, 39, 0.33) 77px 77px,
-      rgba(243, 208, 39, 0.33) 78px 78px,
-      rgba(243, 208, 39, 0.33) 79px 79px,
-      rgba(243, 208, 39, 0.33) 80px 80px,
-      rgba(243, 208, 39, 0.33) 81px 81px,
-      rgba(243, 208, 39, 0.33) 82px 82px,
-      rgba(243, 208, 39, 0.33) 83px 83px,
-      rgba(243, 208, 39, 0.33) 84px 84px,
-      rgba(243, 208, 39, 0.33) 85px 85px,
-      rgba(243, 208, 39, 0.33) 86px 86px,
-      rgba(243, 208, 39, 0.33) 87px 87px,
-      rgba(243, 208, 39, 0.33) 88px 88px,
-      rgba(243, 208, 39, 0.33) 89px 89px,
-      rgba(243, 208, 39, 0.33)90px 90px,
-      rgba(243, 208, 39, 0.33)91px 91px,
-      rgba(243, 208, 39, 0.33)92px 92px,
-      rgba(243, 208, 39, 0.33)93px 93px,
-      rgba(243, 208, 39, 0.33)94px 94px,
-      rgba(243, 208, 39, 0.33) 95px 95px,
-      rgba(243, 208, 39, 0.33) 96px 96px,
-      rgba(243, 208, 39, 0.33) 97px 97px,
-      rgba(243, 208, 39, 0.33) 98px 98px,
-      rgba(243, 208, 39, 0.33) 99px 99px,
-      rgba(243, 208, 39, 0.33) 100px 100px,
-      rgba(243, 208, 39, 0.33) 101px 101px,
-      rgba(243, 208, 39, 0.33) 102px 102px,
-      rgba(243, 208, 39, 0.33) 103px 103px,
-      rgba(243, 208, 39, 0.33) 104px 104px,
-      rgba(243, 208, 39, 0.33) 105px 105px,
-      rgba(243, 208, 39, 0.33) 106px 106px,
-      rgba(243, 208, 39, 0.33) 107px 107px,
-      rgba(243, 208, 39, 0.33) 108px 108px,
-      rgba(243, 208, 39, 0.33) 109px 109px,
-      rgba(243, 208, 39, 0.33) 110px 110px
       }
       .copy-right {
       left:30%;
@@ -833,7 +315,7 @@ html
       }
       .head {
       top: -15%;
-      left: 34%;
+      left: 50%;
       }
       input[type="text"], input[type="password"], input[type="submit"] {
       font-weight: 600;
@@ -843,71 +325,6 @@ html
       .login-form  {
       margin:20% auto 0;
       width: 85%;
-      box-shadow: rgba(243, 208, 39, 0.33) 1px 1px,
-      rgba(243, 208, 39, 0.33) 2px 2px,
-      rgba(243, 208, 39, 0.33) 3px 3px,
-      rgba(243, 208, 39, 0.33) 4px 4px,
-      rgba(243, 208, 39, 0.33) 5px 5px,
-      rgba(243, 208, 39, 0.33) 6px 6px,
-      rgba(243, 208, 39, 0.33) 7px 7px,
-      rgba(243, 208, 39, 0.33) 8px 8px,
-      rgba(243, 208, 39, 0.33) 9px 9px,
-      rgba(243, 208, 39, 0.33) 10px 10px,
-      rgba(243, 208, 39, 0.33) 11px 11px,
-      rgba(243, 208, 39, 0.33) 12px 12px,
-      rgba(243, 208, 39, 0.33) 13px 13px,
-      rgba(243, 208, 39, 0.33) 14px 14px,
-      rgba(243, 208, 39, 0.33) 15px 15px,
-      rgba(243, 208, 39, 0.33) 16px 16px,
-      rgba(243, 208, 39, 0.33) 17px 17px,
-      rgba(243, 208, 39, 0.33) 18px 18px,
-      rgba(243, 208, 39, 0.33) 19px 19px,
-      rgba(243, 208, 39, 0.33) 20px 20px,
-      rgba(243, 208, 39, 0.33) 21px 21px,
-      rgba(243, 208, 39, 0.33) 22px 22px,
-      rgba(243, 208, 39, 0.33) 23px 23px,
-      rgba(243, 208, 39, 0.33) 24px 24px,
-      rgba(243, 208, 39, 0.33) 25px 25px,
-      rgba(243, 208, 39, 0.33) 26px 26px,
-      rgba(243, 208, 39, 0.33) 27px 27px,
-      rgba(243, 208, 39, 0.33) 28px 28px,
-      rgba(243, 208, 39, 0.33) 29px 29px,
-      rgba(243, 208, 39, 0.33) 30px 30px,
-      rgba(243, 208, 39, 0.33) 31px 31px,
-      rgba(243, 208, 39, 0.33) 32px 32px,
-      rgba(243, 208, 39, 0.33) 33px 33px,
-      rgba(243, 208, 39, 0.33) 34px 34px,
-      rgba(243, 208, 39, 0.33) 35px 35px,
-      rgba(243, 208, 39, 0.33) 36px 36px,
-      rgba(243, 208, 39, 0.33) 37px 37px,
-      rgba(243, 208, 39, 0.33) 38px 38px,
-      rgba(243, 208, 39, 0.33) 39px 39px,
-      rgba(243, 208, 39, 0.33) 40px 40px,
-      rgba(243, 208, 39, 0.33) 41px 41px,
-      rgba(243, 208, 39, 0.33) 42px 42px,
-      rgba(243, 208, 39, 0.33) 43px 43px,
-      rgba(243, 208, 39, 0.33) 44px 44px,
-      rgba(243, 208, 39, 0.33) 45px 45px,
-      rgba(243, 208, 39, 0.33) 46px 46px,
-      rgba(243, 208, 39, 0.33) 47px 47px,
-      rgba(243, 208, 39, 0.33) 48px 48px,
-      rgba(243, 208, 39, 0.33) 49px 49px,
-      rgba(243, 208, 39, 0.33) 50px 50px,
-      rgba(243, 208, 39, 0.33) 51px 51px,
-      rgba(243, 208, 39, 0.33) 52px 52px,
-      rgba(243, 208, 39, 0.33) 53px 53px,
-      rgba(243, 208, 39, 0.33) 54px 54px,
-      rgba(243, 208, 39, 0.33) 55px 55px,
-      rgba(243, 208, 39, 0.33) 56px 56px,
-      rgba(243, 208, 39, 0.33) 57px 57px,
-      rgba(243, 208, 39, 0.33) 58px 58px,
-      rgba(243, 208, 39, 0.33) 59px 59px,
-      rgba(243, 208, 39, 0.33) 60px 60px,
-      rgba(243, 208, 39, 0.33) 61px 61px,
-      rgba(243, 208, 39, 0.33) 62px 62px,
-      rgba(243, 208, 39, 0.33) 63px 63px,
-      rgba(243, 208, 39, 0.33) 64px 64px,
-      rgba(243, 208, 39, 0.33) 65px 65px
       }
       .main h1 {
       padding-top: 0;
@@ -915,15 +332,16 @@ html
       }
       .head img {
       width: 60%;
-      border: 5px solid rgba(221, 218, 215, 0.23);
+      border: 5px solid var(--avatar-border);
       }
       .head {
       top: -15%;
-      left: 36%;
+      left: 50%;
       }
       input[type="text"], input[type="password"],input[type="submit"] {
       font-weight:600;
       font-size: 15px;
+      padding: 12px 14px;
       }
       .main form p a {
       font-size: 15px;
