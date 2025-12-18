@@ -416,7 +416,7 @@ app.get('/recommendmovieforuser',function (req,res) {
     console.log('Starting recommendation for userid: ' + userid + ', username: ' + username);
     
     // Python脚本路径和参数
-    const pythonScriptPath = '/home/hadoop/movierecommend/movie_als/movie_als.py';
+    const pythonScriptPath = '/home/hadoop/movierecommend/movie_rec/movie_rec.py';
     const dataDir = '/home/hadoop/ml-latest-small';
     
     console.log('Running Python script: ' + pythonScriptPath);
@@ -659,7 +659,7 @@ app.get('/health', function (req, res) {
         
         // 检查Python脚本是否存在
         const fs = require('fs');
-        const pythonScriptPath = '/home/hadoop/movierecommend/movie_als/movie_als.py';
+        const pythonScriptPath = '/home/hadoop/movierecommend/movie_rec/movie_rec.py';
         
         if (!fs.existsSync(pythonScriptPath)) {
             return res.status(500).json({
@@ -698,7 +698,7 @@ app.get('/recommendmovieforuser',function (req,res) {
     console.log('Starting recommendation for userid: ' + userid + ', username: ' + username);
     
     // Python脚本路径和参数
-    const pythonScriptPath = '/home/hadoop/movie_recommendation_pyspark/movie_als.py';
+    const pythonScriptPath = '/home/hadoop/movie_recommendation_pyspark/movie_rec.py';
     const dataDir = '/home/hadoop/ml-latest-small';
     
     console.log('Running Python script: ' + pythonScriptPath);
