@@ -105,7 +105,7 @@ function buildGenreFilter(genres) {
 }
 
 async function fetchMoviesByGenres(genres, limit) {
-    const baseSQL = 'SELECT movieid,moviename,picture,genre FROM movieinfo';
+    const baseSQL = 'SELECT movieid,moviename,picture,movieurl,genre FROM movieinfo';
     const { clause, params } = buildGenreFilter(genres);
     if (!clause) {
         return [];
@@ -115,7 +115,7 @@ async function fetchMoviesByGenres(genres, limit) {
 }
 
 async function fetchMoviesWithoutGenres(genres, limit) {
-    const baseSQL = 'SELECT movieid,moviename,picture,genre FROM movieinfo';
+    const baseSQL = 'SELECT movieid,moviename,picture,movieurl,genre FROM movieinfo';
     const { clause, params } = buildGenreFilter(genres);
     if (!clause) {
         // 如果没有选择标签，则无法定义非匹配集合
@@ -126,7 +126,7 @@ async function fetchMoviesWithoutGenres(genres, limit) {
 }
 
 async function fetchFallbackMovies(limit) {
-    const baseSQL = 'SELECT movieid,moviename,picture,genre FROM movieinfo ORDER BY RAND() LIMIT ?';
+    const baseSQL = 'SELECT movieid,moviename,picture,movieurl,genre FROM movieinfo ORDER BY RAND() LIMIT ?';
     return queryAsync(baseSQL, [limit]);
 }
 
@@ -465,7 +465,7 @@ app.get('/recommendmovieforuser',function (req,res) {
         // 从数据库中读取推荐结果
         var selectRecommendResultSQL = `
             SELECT recommendresult.userid, recommendresult.movieid, 
-                   recommendresult.rating, movieinfo.moviename, movieinfo.picture 
+                   recommendresult.rating, movieinfo.moviename, movieinfo.picture, movieinfo.movieurl 
             FROM recommendresult 
             INNER JOIN movieinfo ON recommendresult.movieid = movieinfo.movieid 
             WHERE recommendresult.userid = ${userid}
@@ -487,7 +487,8 @@ app.get('/recommendmovieforuser',function (req,res) {
                     movieid: rows[i].movieid,
                     rating: rows[i].rating ? rows[i].rating.toFixed(4) : '0.0000', // 格式化评分
                     moviename: rows[i].moviename,
-                    picture: rows[i].picture
+                    picture: rows[i].picture,
+                    movieurl: rows[i].movieurl || '#'
                 });
                 console.log('Recommendation ' + (i+1) + ': ' + rows[i].moviename + ' (rating: ' + rows[i].rating + ')');
             }
@@ -507,7 +508,8 @@ app.get('/recommendmovieforuser',function (req,res) {
             res.render('recommendresult', {
                 title: 'Recommend Result', 
                 message: '为您推荐的电影', 
-                username: username, 
+                username: username,
+                userid: userid,
                 movieinfo: movieinfolist
             });
             app.set('view engine', 'html');
@@ -530,7 +532,7 @@ app.get('/viewrecommendations', function (req, res) {
     
     var selectRecommendResultSQL = `
         SELECT recommendresult.userid, recommendresult.movieid, 
-               recommendresult.rating, movieinfo.moviename, movieinfo.picture 
+               recommendresult.rating, movieinfo.moviename, movieinfo.picture, movieinfo.movieurl 
         FROM recommendresult 
         INNER JOIN movieinfo ON recommendresult.movieid = movieinfo.movieid 
         WHERE recommendresult.userid = ${userid}
@@ -552,7 +554,8 @@ app.get('/viewrecommendations', function (req, res) {
                 movieid: rows[i].movieid,
                 rating: rows[i].rating ? rows[i].rating.toFixed(4) : '0.0000',
                 moviename: rows[i].moviename,
-                picture: rows[i].picture
+                picture: rows[i].picture,
+                movieurl: rows[i].movieurl
             });
         }
         
@@ -570,7 +573,8 @@ app.get('/viewrecommendations', function (req, res) {
         res.render('recommendresult', {
             title: 'Recommend Result', 
             message: '您的历史推荐', 
-            username: username, 
+            username: username,
+            userid: userid,
             movieinfo: movieinfolist
         });
         app.set('view engine', 'html');
@@ -734,7 +738,7 @@ app.get('/recommendmovieforuser',function (req,res) {
         // 从数据库中读取推荐结果
         var selectRecommendResultSQL = `
             SELECT recommendresult.userid, recommendresult.movieid, 
-                   recommendresult.rating, movieinfo.moviename, movieinfo.picture 
+                   recommendresult.rating, movieinfo.moviename, movieinfo.picture, movieinfo.movieurl 
             FROM recommendresult 
             INNER JOIN movieinfo ON recommendresult.movieid = movieinfo.movieid 
             WHERE recommendresult.userid = ${userid}
@@ -756,7 +760,8 @@ app.get('/recommendmovieforuser',function (req,res) {
                     movieid: rows[i].movieid,
                     rating: rows[i].rating.toFixed(4), // 格式化评分
                     moviename: rows[i].moviename,
-                    picture: rows[i].picture
+                    picture: rows[i].picture,
+                    movieurl: rows[i].movieurl || '#'
                 });
                 console.log('Recommendation ' + (i+1) + ': ' + rows[i].moviename + ' (rating: ' + rows[i].rating + ')');
             }
@@ -776,7 +781,8 @@ app.get('/recommendmovieforuser',function (req,res) {
             res.render('recommendresult', {
                 title: 'Recommend Result', 
                 message: '为您推荐的电影', 
-                username: username, 
+                username: username,
+                userid: userid,
                 movieinfo: movieinfolist
             });
             app.set('view engine', 'html');
@@ -800,7 +806,7 @@ app.get('/viewrecommendations', function (req, res) {
     
     var selectRecommendResultSQL = `
         SELECT recommendresult.userid, recommendresult.movieid, 
-               recommendresult.rating, movieinfo.moviename, movieinfo.picture 
+               recommendresult.rating, movieinfo.moviename, movieinfo.picture, movieinfo.movieurl 
         FROM recommendresult 
         INNER JOIN movieinfo ON recommendresult.movieid = movieinfo.movieid 
         WHERE recommendresult.userid = ${userid}
@@ -822,7 +828,8 @@ app.get('/viewrecommendations', function (req, res) {
                 movieid: rows[i].movieid,
                 rating: rows[i].rating.toFixed(4),
                 moviename: rows[i].moviename,
-                picture: rows[i].picture
+                picture: rows[i].picture,
+                movieurl: rows[i].movieurl || '#'
             });
         }
         
@@ -919,7 +926,7 @@ app.get('/api/movies', function(req, res) {
     const limit = req.query.limit || 20;
     const offset = req.query.offset || 0;
     
-    const selectMovieSQL = "select movieid, moviename, picture from movieinfo limit " + parseInt(offset) + "," + parseInt(limit);
+    const selectMovieSQL = "select movieid, moviename, picture, movieurl from movieinfo limit " + parseInt(offset) + "," + parseInt(limit);
     
     connection.query(selectMovieSQL, function(err, rows, fields) {
         if (err) {
@@ -934,7 +941,7 @@ app.get('/api/movies', function(req, res) {
  * 获取推荐电影列表API（首页轮播下展示）
  */
 app.get('/api/featured-movies', function(req, res) {
-    const selectMovieSQL = "select movieid, moviename, picture from movieinfo order by movieid desc limit 10";
+    const selectMovieSQL = "select movieid, moviename, picture, movieurl from movieinfo order by movieid desc limit 10";
     
     connection.query(selectMovieSQL, function(err, rows, fields) {
         if (err) {

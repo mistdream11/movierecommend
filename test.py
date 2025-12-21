@@ -25,6 +25,7 @@ def create_movieinfo_table(connection):
         movieid INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
         moviename VARCHAR(255) NOT NULL,
         picture VARCHAR(500),
+        movieurl VARCHAR(500),
         genre VARCHAR(100),
         director VARCHAR(100),
         actors TEXT,

@@ -65,6 +65,7 @@ html(lang='zh-CN')
         transition: all 0.3s ease;
         display: flex;
         flex-direction: column;
+        cursor: pointer;
       }
 
       .recommendation-card:hover {
@@ -76,6 +77,12 @@ html(lang='zh-CN')
         width: 100%;
         height: 280px;
         object-fit: cover;
+        cursor: pointer;
+        transition: opacity 0.3s ease;
+      }
+
+      .recommendation-card img:hover {
+        opacity: 0.85;
       }
 
       .card-content {
@@ -227,11 +234,11 @@ html(lang='zh-CN')
               div.card-content
                 div.movie-name= movieinfo[i].moviename
                 div.card-actions
-                  button.card-btn.btn-view(type='button', onclick=`alert('查看详情: ${movieinfo[i].moviename}')`) 查看详情
+                  button.card-btn.btn-view(type='button', onclick=`window.open('${movieinfo[i].movieurl || '#'}', '_blank')`) 查看详情
                   button.card-btn.btn-favorite(type='button', onclick=`alert('已添加到收藏: ${movieinfo[i].moviename}')`) ♥ 收藏
         -else
           p(style='text-align: center; color: var(--text-secondary); padding: 40px;') 暂无推荐电影
       
       div.actions-footer
-        button.btn.btn-primary(onclick="location.href='/loginpage'") 返回首页
-        button.btn.btn-secondary(onclick="location.href='/personalratings'") 继续评分
+        button.btn.btn-primary(onclick=`location.href='/genreselect?userid=#{userid}&username=#{username}'`) 返回首页
+        button.btn.btn-secondary(onclick=`location.href='/personalratings?userid=#{userid}&username=#{username}'`) 继续评分

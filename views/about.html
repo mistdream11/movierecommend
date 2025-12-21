@@ -577,7 +577,7 @@
             const movies = filteredMovies.slice(start, end);
 
             container.innerHTML = movies.map(movie => `
-                <div class="movie-card">
+                <div class="movie-card" onclick="window.open('${movie.movieurl || '#'}', '_blank')">
                     <img src="${movie.picture}" alt="${movie.moviename}" class="movie-poster" 
                          onerror="this.src='https://via.placeholder.com/160x220?text=No+Image'">
                     <div class="movie-info">
