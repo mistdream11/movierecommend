@@ -65,6 +65,7 @@ mysql> DESC user;
 | created_at | timestamp    | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
 +------------+--------------+------+-----+-------------------+-------------------+
 5 rows in set (0.00 sec)
+```
 # 🎬 电影推荐系统 (Movie Recommendation System)
 
 一个基于**强化学习**和**协同过滤**的电影推荐应用，采用**Node.js + Python**双语言架构，集成了用户认证、电影数据库、个性化评分和智能推荐引擎。
