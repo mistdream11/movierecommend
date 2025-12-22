@@ -212,6 +212,56 @@ app.post('/login',function (req,res) {
 app.get('/registerpage',function (req,res) {
   res.sendFile('/home/hadoop/movierecommend/views/registerpage.html',{title:'注册'});
 })
+
+/**
+ * 跳转到类型选择页面（从推荐结果页面返回）
+ */
+app.get('/genreselect', function (req, res) {
+  const userid = req.query.userid;
+  const username = req.query.username;
+
+  if (!userid || !username) {
+    return res.status(400).send('缺少用户信息，请重新登录');
+  }
+
+  const user = { userid, username };
+  renderGenreSelectionPage(res, user, null);
+});
+
+/**
+ * 跳转到个人评分页面（从推荐结果页面继续评分）
+ */
+app.get('/personalratings', function (req, res) {
+  const userid = req.query.userid;
+  const username = req.query.username;
+
+  if (!userid || !username) {
+    return res.status(400).send('缺少用户信息，请重新登录');
+  }
+
+  const user = { userid, username };
+  
+  // 获取随机电影进行评分
+  fetchFallbackMovies(10).then(movielist => {
+    if (movielist.length === 0) {
+      res.send('没有符合条件的电影，请重新选择类型');
+      return;
+    }
+
+    app.set('view engine', 'jade');
+    res.render('personalratings', {
+      title: 'Welcome User',
+      userid: user.userid,
+      username: user.username,
+      movieforpage: movielist,
+      selectedGenres: []
+    });
+    app.set('view engine', 'html');
+  }).catch(err => {
+    console.error('Error fetching movies:', err);
+    res.status(500).send('获取电影列表失败，请重试');
+  });
+});
  
 app.post('/selectgenres', function (req, res) {
     const userid = req.body.userid;
