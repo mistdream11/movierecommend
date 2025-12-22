@@ -511,13 +511,14 @@
             <ul class="nav" id="nav">
                 <li><a href="/">首页</a></li>
                 <li><a href="/about.html">电影</a></li>
+                <li><a id="nav-recommend" href="/loginpage">推荐</a></li>
             </ul>
         </div>
         <!-- 登录/注册导航 -->
         <div class="top-nav">
             <ul>
-                <li class="active"><a onclick="window.location='/loginpage'">登录</a></li>
-                <li><a onclick="window.location='/registerpage'">注册</a></li>
+                <li class="active" id="btn-login"><a onclick="window.location='/loginpage'">登录</a></li>
+                <li id="btn-register"><a onclick="window.location='/registerpage'">注册</a></li>
             </ul>
         </div>
     </div>
@@ -641,6 +642,32 @@
 
     // 电影加载脚本
     (function() {
+        // 登录状态与导航控制
+        function setupAuthAndNav() {
+            fetch('/api/auth/status')
+                .then(r => r.json())
+                .then(status => {
+                    const recommendLink = document.getElementById('nav-recommend');
+                    const loginBtn = document.getElementById('btn-login');
+                    const registerBtn = document.getElementById('btn-register');
+                    if (status && status.loggedIn) {
+                        // 已登录：隐藏登录/注册；推荐链接进入推荐流程
+                        if (loginBtn) loginBtn.style.display = 'none';
+                        if (registerBtn) registerBtn.style.display = 'none';
+                        if (recommendLink) recommendLink.setAttribute('href', '/genreselect');
+                    } else {
+                        // 未登录：显示登录/注册；推荐指向登录页
+                        if (loginBtn) loginBtn.style.display = '';
+                        if (registerBtn) registerBtn.style.display = '';
+                        if (recommendLink) recommendLink.setAttribute('href', '/loginpage');
+                    }
+                })
+                .catch(() => {
+                    // 接口异常时，保持默认行为：推荐跳登录
+                    const recommendLink = document.getElementById('nav-recommend');
+                    if (recommendLink) recommendLink.setAttribute('href', '/loginpage');
+                });
+        }
         // 渲染电影列表
         function renderMovies(movies, containerId) {
             const container = document.getElementById(containerId);
@@ -693,6 +720,7 @@
 
         // 页面加载完成后加载电影
         document.addEventListener('DOMContentLoaded', function() {
+            setupAuthAndNav();
             loadFeaturedMovies();
             loadAllMovies();
         });
@@ -700,10 +728,12 @@
         // 如果DOM已经加载，直接加载（防止DOMContentLoaded已经触发的情况）
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', function() {
+                setupAuthAndNav();
                 loadFeaturedMovies();
                 loadAllMovies();
             });
         } else {
+            setupAuthAndNav();
             loadFeaturedMovies();
             loadAllMovies();
         }

@@ -4,6 +4,7 @@
  
 var  express=require('express');
 var  bodyParser = require('body-parser')
+var session = require('express-session');
 const { spawn, spawnSync } = require('child_process');
 var  app=express();
 var mysql=require('mysql');
@@ -14,6 +15,14 @@ app.set('view engine', 'html');
 app.set('views', './views');
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
+
+// 会话配置：用于保存登录状态
+app.use(session({
+    secret: 'movierecommend-secret',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 }
+}));
 
 const MOVIES_CSV_PATH = process.env.MOVIES_CSV_PATH || '/home/hadoop/movierecommend/movies.csv';
 genreLoader.loadGenres(MOVIES_CSV_PATH);
@@ -162,6 +171,17 @@ app.get('/',function (req,res) {
 })
 
 /**
+ * 查询登录状态（供前端判断是否显示登录/注册按钮）
+ */
+app.get('/api/auth/status', function (req, res) {
+    const user = req.session && req.session.user;
+    if (user) {
+        return res.json({ loggedIn: true, user });
+    }
+    res.json({ loggedIn: false });
+});
+
+/**
  * 跳转到电影列表页面
  */
 app.get('/about.html',function (req,res) {
@@ -193,16 +213,25 @@ app.post('/login',function (req,res) {
             res.send("用户名或密码错误！");
             return;
         }
-
         const user = rows[0];
-        const genres = genreLoader.getGenres();
-        if (!genres || genres.length === 0) {
-            res.status(500).send('无法读取电影类型标签，请检查 MOVIES_CSV_PATH 配置。');
-            return;
-        }
-        
-        renderGenreSelectionPage(res, user, null);
+        // 将登录用户存入会话
+        req.session.user = { userid: user.userid, username: user.username };
+        // 登录后回到主页
+        res.redirect('/');
     });
+});
+
+/**
+ * 退出登录（可选）
+ */
+app.post('/logout', function (req, res) {
+    if (req.session) {
+        req.session.destroy(() => {
+            res.json({ success: true });
+        });
+    } else {
+        res.json({ success: true });
+    }
 });
 
 /**
@@ -217,29 +246,32 @@ app.get('/registerpage',function (req,res) {
  * 跳转到类型选择页面（从推荐结果页面返回）
  */
 app.get('/genreselect', function (req, res) {
-  const userid = req.query.userid;
-  const username = req.query.username;
+    // 优先从会话读取用户
+    const sessUser = req.session && req.session.user;
+    const userid = req.query.userid || (sessUser && sessUser.userid);
+    const username = req.query.username || (sessUser && sessUser.username);
 
-  if (!userid || !username) {
-    return res.status(400).send('缺少用户信息，请重新登录');
-  }
+    if (!userid || !username) {
+        return res.status(401).send('缺少用户信息，请登录后再试');
+    }
 
-  const user = { userid, username };
-  renderGenreSelectionPage(res, user, null);
+    const user = { userid, username };
+    renderGenreSelectionPage(res, user, null);
 });
 
 /**
  * 跳转到个人评分页面（从推荐结果页面继续评分）
  */
 app.get('/personalratings', function (req, res) {
-  const userid = req.query.userid;
-  const username = req.query.username;
+    const sessUser = req.session && req.session.user;
+    const userid = req.query.userid || (sessUser && sessUser.userid);
+    const username = req.query.username || (sessUser && sessUser.username);
 
-  if (!userid || !username) {
-    return res.status(400).send('缺少用户信息，请重新登录');
-  }
+    if (!userid || !username) {
+        return res.status(401).send('缺少用户信息，请登录后再试');
+    }
 
-  const user = { userid, username };
+    const user = { userid, username };
   
   // 获取随机电影进行评分
   fetchFallbackMovies(10).then(movielist => {
@@ -299,8 +331,9 @@ app.post('/selectgenres', function (req, res) {
 });
 
 app.post('/chooserecommendation', async function(req, res) {
-    const userid = req.body.userid;
-    const username = req.body.username;
+    const sessUser = req.session && req.session.user;
+    const userid = req.body.userid || (sessUser && sessUser.userid);
+    const username = req.body.username || (sessUser && sessUser.username);
     const recommendMode = req.body.recommendMode;
     let selectedGenres = req.body.selectedGenres;
 
