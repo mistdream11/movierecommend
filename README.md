@@ -9,7 +9,6 @@
 - ✅ **用户认证系统** - 用户注册、登录、个人中心管理
 - ✅ **电影评分模块** - 用户对电影的个性化评分功能
 - ✅ **智能推荐引擎** - 基于强化学习和协同过滤的推荐算法
-- ✅ **电影浏览功能** - 按类型、评分等条件浏览和搜索电影
 
 ## 🏗️ 项目结构
 
@@ -27,11 +26,14 @@ movierecommend/
 │
 ├── views/                          # Web前端视图
 │   ├── index.html                 # 首页
+│   ├── about.html                 # 搜索
 │   ├── loginpage.html             # 登录页面
 │   ├── registerpage.html          # 注册页面
+|   ├── registersuccess.html       # 注册成功页面
 │   ├── modechoice.jade            # 模式选择页面
 │   ├── genreselect.jade           # 类型选择页面
-│   ├── personalratings.jade       # 个人评分页面
+│   ├── interactiveRating.jade     # 个人评分页面
+|   ├── userscoresuccess           # 评分成功页面
 │   ├── recommendresult.jade       # 推荐结果页面
 │   └── css/                       # 样式文件
 │
@@ -178,6 +180,54 @@ Server is running on http://localhost:3000
 4. **对电影评分** - 观看推荐的电影并进行1-5星评分
 5. **获取推荐结果** - 系统基于评分历史和算法推荐最适合的电影
 
+## 🎨 前端功能详解
+
+### 核心页面与功能
+
+#### 1. 🏠 首页 (index.html)
+
+**功能特性：**
+- **轮播图**：展示热门电影推荐，支持自动轮播
+- **导航栏**：快速访问登录、注册、关于页面
+
+
+#### 2. 🎯 推荐模式选择页面 (modechoice.jade)
+
+**功能特性：**
+- **双模式选择**：
+  - **简单模式** - 5轮选择，快速推荐
+  - **详细模式** - 10轮选择，个性化推荐
+
+
+#### 3. 🎬 电影类型选择页面 (genreselect.jade)
+
+**功能特性：**
+- **多类型选择**：支持选择多个电影类型（复选框）
+
+
+#### 4. ⭐ 个人评分页面 (interactiveRatings.jade)
+
+**功能特性：**
+- **电影列表展示**：根据选择的类型显示电影
+- **星级评分系统**：喜欢or不喜欢，可剔除未看过的电影
+
+
+#### 5. 🎯 推荐结果页面 (recommendresult.jade)
+
+**功能特性：**
+- **个性化推荐列表**：基于算法生成的推荐电影
+- **电影详细信息**
+
+
+
+#### 6. 🔍 电影浏览和搜索页面 (about.html)
+
+**功能特性：**
+- **电影库展示**：展示系统中所有电影的网格布局
+- **实时搜索功能**：输入电影名称实时筛选结果
+
+
+
 ## 🤖 推荐算法说明
 
 ### 强化学习推荐 (RL-based Recommendation)
@@ -302,20 +352,6 @@ CREATE TABLE recommendresult (
 | 数据库连接失败 | 检查MySQL服务是否运行，验证config.py中的连接参数 |
 | 找不到node_modules | 运行 `npm install` 安装依赖 |
 | 推荐结果为空 | 确保personalratings表中有足够的评分数据 |
-
-## 📁 项目文件说明
-
-| 文件/文件夹 | 说明 |
-|------------|------|
-| `movierecommend.js` | Node.js主服务器文件，包含路由和业务逻辑 |
-| `crawler.py` | 电影数据爬虫脚本 |
-| `genreLoader.js` | 电影类型加载器 |
-| `load_into_mysql.py` | 数据导入MySQL脚本 |
-| `test.py` | Python测试脚本 |
-| `package.json` | Node.js项目配置和依赖列表 |
-| `movie_rec/` | Python推荐算法模块目录 |
-| `views/` | Web前端视图和HTML模板 |
-| `models/` | 预训练机器学习模型参数目录 |
 
 
 
