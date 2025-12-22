@@ -240,7 +240,5 @@ html(lang='zh-CN')
           p(style='text-align: center; color: var(--text-secondary); padding: 40px;') 暂无推荐电影
       
       div.actions-footer
-        - var genreSelectUrl = '/genreselect?userid=' + userid + '&username=' + username
-        - var personalRatingsUrl = '/personalratings?userid=' + userid + '&username=' + username
-        button.btn.btn-primary(onclick=`location.href='${genreSelectUrl}'`) 返回首页
-        button.btn.btn-secondary(onclick=`location.href='${personalRatingsUrl}'`) 继续评分
+        button.btn.btn-primary(onclick="location.href='/'") 返回首页
+        button.btn.btn-secondary(onclick="location.href='/genreselect'") 继续评分

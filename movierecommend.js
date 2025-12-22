@@ -1008,10 +1008,8 @@ app.get('/viewuserratings', function (req, res) {
 app.get('/api/movies', function(req, res) {
     const limit = req.query.limit || 20;
     const offset = req.query.offset || 0;
-    
-    const selectMovieSQL = "select movieid, moviename, picture, movieurl from movieinfo limit " + parseInt(offset) + "," + parseInt(limit);
-    
-    connection.query(selectMovieSQL, function(err, rows, fields) {
+    const selectMovieSQL = "select movieid, moviename, picture, movieurl, genre from movieinfo limit " + parseInt(offset) + "," + parseInt(limit);
+    connection.query(selectMovieSQL, function(err, rows) {
         if (err) {
             res.json({ success: false, error: err.message });
             return;
